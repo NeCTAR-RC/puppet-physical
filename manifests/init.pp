@@ -1,40 +1,5 @@
 class physical {
 
-  package { ['smartmontools', 'hddtemp'] :
-    ensure => installed,
-  }
-
-  # dev kit doesn't have good smart capabilities
-  if $::environment != 'development' {
-    file { '/etc/default/smartmontools':
-      owner  => root,
-      group  => root,
-      mode   => 0644,
-      source => 'puppet:///modules/physical/smartmontools',
-     notify => Service['smartd'],
-    }
-
-    service { 'smartd':
-      ensure  => running,
-      require => Package['smartmontools'],
-      subscribe => File['/etc/default/smartmontools'],
-    }
-
-    file { '/etc/default/hddtemp':
-      owner  => root,
-      group  => root,
-      mode   => 0644,
-      source => 'puppet:///modules/physical/hddtemp',
-      notify => Service['hddtemp'],
-    }
-
-    service { 'hddtemp':
-      ensure  => running,
-      require => Package['hddtemp'],
-      subscribe => File['/etc/default/hddtemp'],
-    }
-  }
-
   package { ['irqbalance', 'ipmitool', 'lm-sensors', 'freeipmi-tools']:
     ensure => installed,
   }
