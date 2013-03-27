@@ -21,7 +21,7 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
     owner   => 'root',
     group   => 'root',
     mode    => 440,
-    source  => 'puppet:///modules/physical/sudoers/nagios_ipmi',
+    source  => 'puppet:///modules/physical/sudoers_nagios_ipmi',
   }
 
   file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
@@ -86,7 +86,7 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
 
   exec { 'ipmi_add_user' :
     command => "/usr/bin/ipmitool user set name 2 ${user}",
-    unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}' | grep ${user})\" == \"${luser}\"",
+    unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}' | grep ${user})\" == \"${user}\"",
     notify  => Exec[ipmi_user_enable],
   }
 
