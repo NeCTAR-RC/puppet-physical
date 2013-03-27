@@ -3,12 +3,12 @@ class physical::smart($ensure='present') {
   package { 'smartmontools' :
     ensure => $ensure,
   }
-  
+
   file { '/etc/default/smartmontools':
     ensure => $ensure,
     owner  => root,
     group  => root,
-    mode   => 0644,
+    mode   => '0644',
     source => 'puppet:///modules/physical/smartmontools',
   }
 
@@ -20,4 +20,3 @@ class physical::smart($ensure='present') {
     }
   }
 }
-                              

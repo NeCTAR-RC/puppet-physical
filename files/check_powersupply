@@ -1,40 +1,61 @@
 #!/bin/bash
 #  Copyright (c) 2010, tummy.com, ltd., All Rights Reserved.
 #  Written by Kyle Anderson, tummy.com, ltd.
-#  Under the GPL v2 License 
-#  Modified by Devendran for PWS-1K62P-1R Power Supply 
+#  Under the GPL v2 License
+#  Modified by Devendran for PWS-1K62P-1R Power Supply
+
 # check for plugin directory where utils.sh lives
 [ -d /usr/lib/nagios/plugins ]   && UTILPATH=/usr/lib/nagios/plugins
 [ -d /usr/lib64/nagios/plugins ] && UTILPATH=/usr/lib64/nagios/plugins
+
 #  load states and strings
 if [ -x "$UTILPATH"/utils.sh ]; then
-        . "$UTILPATH"/utils.sh
+    . "$UTILPATH"/utils.sh
 else
-        echo "ERROR: Cannot find utils.sh"
-        exit
+    echo "ERROR: Cannot find utils.sh"
+    exit
 fi
 
 if ! which ipmitool >/dev/null 2>&1; then
-        echo "ERROR: No ipmitool missing"
-        exit $STATE_UNKNOWN
+    echo "ERROR: ipmitool missing"
+    exit $STATE_UNKNOWN
 fi
 
-#Use raw to get the power status
-#POWER for regular power supply
-#PMPOWER for PM Bus Power supply
-#Using both for the check since ps type is un-identifiable 
+if [ "$1" == "" ] ; then
+  echo "ERROR: no power supply specified"
+  exit $STATE_UNKNOWN
+fi
 
-POWER1=`sudo ipmitool raw 0x06 0x52 0x07 0x70 0x01 0x0c 2>/dev/null`
-POWER2=`sudo ipmitool raw 0x06 0x52 0x07 0x72 0x01 0x0c 2>/dev/null`
-PMPOWER1=`sudo ipmitool raw 0x06 0x52 0x07 0x78 0x01 0x78 2>/dev/null`
-PMPOWER2=`sudo ipmitool raw 0x06 0x52 0x07 0x7a 0x01 0x78 2>/dev/null`
-if [ "$POWER1" == ' 01' ] && [ "$POWER2" == ' 01' ] && [ "$PMPOWER1" == ' 01' ] && [ "$PMPOWER2" == ' 01' ]; then
-        echo "OK: Power supply status OK"
-        exit $STATE_OK
-elif [ "$POWER1" != ' 01' ] && [ "$PMPOWER1" != ' 01' ]; then
-        echo "CRITICAL: Power Supply 1 failure"
-        exit $STATE_CRITICAL
-elif [ "$POWER2" != ' 01' ] && [ "$PMPOWER2" != ' 01' ]; then
-        echo "CRITICAL: Power Supply 2 failure"
-        exit $STATE_CRITICAL
+case "$1" in
+
+1)
+    ps_val="0x70"
+    pm_val="0x78"
+    ;;
+2)
+    ps_val="0x72"
+    pm_val="0x7a"
+    ;;
+3)
+    ps_val="0x74"
+    pm_val="0x7c"
+    ;;
+*)
+   echo "ERROR: no valid power supply specified"
+   exit $STATE_UNKNOWN
+   ;;
+esac
+
+POWER=`sudo /usr/bin/ipmitool raw 0x06 0x52 0x07 ${ps_val} 0x01 0x0c 2>/dev/null`
+PMPOWER=`sudo /usr/bin/ipmitool raw 0x06 0x52 0x07 ${pm_val} 0x01 0x78 2>/dev/null`
+
+if [ "$POWER" == " 01" ] && [ "$PMPOWER" == " 01" ]; then
+    echo "OK: Power supply $1 OK"
+    exit $STATE_OK
+elif [ "$POWER" != " 01" ] || [ "$PMPOWER" != " 01" ]; then
+    echo "WARNING: Power Supply $1 failure"
+    exit $STATE_WARNING
+elif [ "$POWER" != " 01" ] && [ "$PMPOWER" != " 01" ]; then
+    echo "CRITICAL: Power Supply $1 failure"
+    exit $STATE_CRITICAL
 fi

@@ -4,21 +4,6 @@ class physical {
     ensure => installed,
   }
 
-  if $::boardproductname == 'H8DGT' {
-
-    file {'/etc/init/ttyS1.conf':
-      ensure => present,
-      source => 'puppet:///modules/physical/ttyS1.conf',
-      notify => Service[ttyS1],
-    }
-
-    service { 'ttyS1':
-      ensure => running,
-      enable => true,
-      provider => upstart,
-    }
-  }
-
   if $::has_infiniband == 'true' {
 
     include physical::infiniband
@@ -28,4 +13,11 @@ class physical {
 
     include physical::ipmi
   }
+
+  if $::productname == 'H8DGT' {
+
+    include physical::powersupply
+  }
+
+  include physical::cleanup
 }

@@ -3,15 +3,15 @@ class physical::hddtemp($ensure='present') {
   package { 'hddtemp' :
     ensure => $ensure,
   }
-  
+
   file { '/etc/default/hddtemp':
     ensure => $ensure,
     owner  => root,
     group  => root,
-    mode   => 0644,
+    mode   => '0644',
     source => 'puppet:///modules/physical/hddtemp',
   }
-  
+
   if $ensure == 'present' {
     service { 'hddtemp':
       ensure    => running,
