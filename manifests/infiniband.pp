@@ -10,4 +10,8 @@ class physical::infiniband {
     subscribe   => File['/etc/modprobe.d/mlx4.conf'],
     refreshonly => true,
   }
+
+  package { 'mlx4-dkms':
+    ensure => present,
+  }
 }

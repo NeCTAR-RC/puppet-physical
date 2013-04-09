@@ -21,14 +21,6 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
     provider => upstart,
   }
 
-  file { '/usr/lib/nagios/plugins/check_ipmi_sensor.pl':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///modules/physical/check_ipmi_sensor.pl',
-  }
-
   file { '/etc/sudoers.d/nagios_ipmi':
     owner   => 'root',
     group   => 'root',

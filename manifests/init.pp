@@ -1,6 +1,6 @@
 class physical {
 
-  package { ['irqbalance', 'lm-sensors', 'dmidecode']:
+  package { ['irqbalance', 'lm-sensors', 'dmidecode', 'binutils']:
     ensure => installed,
   }
 
@@ -14,9 +14,17 @@ class physical {
     include physical::ipmi
   }
 
-  if $::productname == 'H8DGT' {
+  case $::manufacturer {
 
-    include physical::powersupply
+    'HP' :         { include physical::hp }
+    'Dell Inc.' :  { include physical::dell }
+    'Supermicro' : { include physical::supermicro }
+
+  }
+
+  if $::mdadm_devices != '' {
+
+    include physical::mdraid
   }
 
   include physical::cleanup
