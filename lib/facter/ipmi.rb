@@ -149,5 +149,32 @@ if FileTest.exists?("/usr/bin/ipmitool")
         h8dgt_pm_ps3
       end
     end
+
+    idrac = %x{ipmitool raw 0x2e 0x01 0xa2 0x02 0x00 2>/dev/null | cut -d " " -f 5}.chomp
+    if !idrac.nil?
+      user = '2'
+      idrac_user2_priv = %x{ipmitool raw 0x2e 0x02 0xa2 0x02 0x00 0x#{idrac} 0x04 0x0#{user} 0x00 0x00 0xFF 2>/dev/null | cut -d " " -f 13-16}.chomp
+      if !idrac_user2_priv.nil?
+        Facter.add("idrac_user2_priv") do
+          confine :kernel => %w{Linux FreeBSD}
+          setcode do
+            idrac_user2_priv
+          end
+        end
+      end
+      idrac = %x{ipmitool raw 0x2e 0x01 0xa2 0x02 0x00 2>/dev/null | cut -d " " -f 5}.chomp
+      if !idrac.nil?
+        user = '3'
+        idrac_user3_priv = %x{ipmitool raw 0x2e 0x02 0xa2 0x02 0x00 0x#{idrac} 0x04 0x0#{user} 0x00 0x00 0xFF 2>/dev/null | cut -d " " -f 13-16}.chomp
+        if !idrac_user3_priv.nil?
+          Facter.add("idrac_user3_priv") do
+            confine :kernel => %w{Linux FreeBSD}
+            setcode do
+              idrac_user3_priv
+            end
+          end
+        end
+      end
+    end
   end
 end

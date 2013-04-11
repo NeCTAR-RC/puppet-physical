@@ -8,7 +8,7 @@ class physical::hp {
     source  => 'puppet:///modules/nagios/sudoers_nagios_hp',
   }
 
-  package { ['hp-health','hponcfg']:
+  package { ['hp-health', 'hponcfg', 'binutils']:
     ensure => installed,
   }
 

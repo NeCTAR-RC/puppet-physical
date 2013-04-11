@@ -23,7 +23,7 @@ class physical::dell {
     ensure => present,
     owner  => nagios,
     group  => nagios,
-    mode   => '0640'
+    mode   => '1664'
   }
 
   service { 'dataeng':
