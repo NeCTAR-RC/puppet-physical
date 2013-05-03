@@ -27,5 +27,10 @@ class physical {
     include physical::mdraid
   }
 
+  if $::has_nfs_mounts == 'true' {
+
+    include physical::nfs
+  }
+
   include physical::cleanup
 }

@@ -1,4 +1,4 @@
-class physical::nfs_check {
+class physical::nfs {
 
   file { '/etc/sudoers.d/sudoers_nagios_nfs':
     owner   => root,
@@ -10,7 +10,7 @@ class physical::nfs_check {
   file { '/usr/lib/nagios/plugins/check_nfs.py':
     owner   => root,
     group   => root,
-    mode    => '0755',
+    mode    => '0750',
     source  => 'puppet:///modules/physical/check_nfs.py',
   }
 
