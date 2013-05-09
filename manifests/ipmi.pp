@@ -1,6 +1,6 @@
 class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netmask='255.255.255.0') {
 
-  $ipmi_pkgs = ['ipmitool', 'freeipmi-tools', 'bind9-host']
+  $ipmi_pkgs = ['ipmitool', 'freeipmi-tools', 'bind9-host', 'libipc-run-perl']
 
   package { $ipmi_pkgs :
     ensure => present,
@@ -33,6 +33,7 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
     group  => root,
     mode   => '0755',
     source => 'puppet:///modules/physical/check_ipmi_sensor',
+    require => Package[$ipmi_pkgs],
   }
 
   nagios::nrpe::service { 'check_ipmi_sensor':
