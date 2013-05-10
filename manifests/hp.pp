@@ -5,7 +5,7 @@ class physical::hp {
     owner   => root,
     group   => root,
     mode    => '0440',
-    source  => 'puppet:///modules/nagios/sudoers_nagios_hp',
+    source  => 'puppet:///modules/physical/sudoers_nagios_hp',
   }
 
   package { ['hp-health', 'hponcfg']:
