@@ -1,5 +1,12 @@
 class physical::dell {
 
+  file { '/etc/sudoers.d/nagios_dell':
+    owner   => root,
+    group   => root,
+    mode    => '0440',
+    source  => 'puppet:///modules/physical/sudoers_nagios_dell',
+  }
+
   package { 'srvadmin-base':
     ensure => present,
   }
@@ -33,7 +40,7 @@ class physical::dell {
   }
 
   nagios::nrpe::service { 'check_openmanage':
-    check_command => '/usr/local/lib/nagios/plugins/check_openmanage --no-storage',
+    check_command => '/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage --no-storage',
     nrpe_command  => 'check_nrpe_slow_1arg'
   }
 }
