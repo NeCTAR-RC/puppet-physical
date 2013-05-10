@@ -60,4 +60,8 @@ class physical::cleanup {
   file { '/etc/apt/sources.list.d/hp.mcp.list':
     ensure => absent,
   }
+
+  file { '/etc/sudoers.d/sudoers_nagios_nfs':
+    ensure => absent,
+  }
 }

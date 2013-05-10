@@ -1,6 +1,6 @@
 class physical::nfs {
 
-  file { '/etc/sudoers.d/sudoers_nagios_nfs':
+  file { '/etc/sudoers.d/nagios_nfs':
     owner   => root,
     group   => root,
     mode    => '0440',
