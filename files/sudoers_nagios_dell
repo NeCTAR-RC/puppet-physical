@@ -1,0 +1,1 @@
+nagios ALL=NOPASSWD:/usr/local/lib/nagios/plugins/check_openmanage
