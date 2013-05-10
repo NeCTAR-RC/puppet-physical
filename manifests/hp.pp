@@ -1,6 +1,5 @@
 class physical::hp {
 
-
   file { '/etc/sudoers.d/nagios_hp':
     owner   => root,
     group   => root,
@@ -8,13 +7,37 @@ class physical::hp {
     source  => 'puppet:///modules/physical/sudoers_nagios_hp',
   }
 
-  package { ['hp-health', 'hponcfg']:
-    ensure => installed,
+  if $::broken_hp == 'true' {
+
+    package { ['hp-health', 'hponcfg']:
+      ensure => absent,
+    }
+
+  } else {
+
+    package { ['hp-health', 'hponcfg']:
+      ensure => present,
+    }
+
+    service { 'hp-health':
+      ensure => running,
+      enable => true,
+    }
+
+    nagios::nrpe::service { 'check_hp_hardware':
+      check_command => '/usr/local/lib/nagios/plugins/check_hpasm --ignore-dimms';
+    }
   }
 
-  service { 'hp-health':
-    ensure => running,
-    enable => true,
+  if $::hp_raid == 'true' {
+
+    package { ['hpacucli']:
+      ensure => installed,
+    }
+
+    nagios::nrpe::service { 'check_hp_raid':
+      check_command => '/usr/local/lib/nagios/plugins/check_cciss -s',
+    }
   }
 
   file { '/usr/local/lib/nagios/plugins/check_hpasm':
@@ -29,20 +52,5 @@ class physical::hp {
     group   => root,
     mode    => '0755',
     source  => 'puppet:///modules/physical/check_cciss',
-  }
-
-  # FIXME use a fact to determine host type so it is portable?
-  if $hostname =~ /^qh2-rc[s|p]\d+$/ {
-
-    nagios::nrpe::service { 'check_hp_hardware':
-      check_command => '/usr/local/lib/nagios/plugins/check_hpasm --ignore-dimms';
-    }
-  }
-
-  if $hostname =~ /^np-rc[s|p]\d+$/ {
-
-    nagios::nrpe::service { 'check_cciss':
-      check_command => '/usr/local/lib/nagios/plugins/check_cciss -s',
-    }
   }
 }
