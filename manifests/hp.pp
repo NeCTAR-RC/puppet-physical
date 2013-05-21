@@ -15,13 +15,16 @@ class physical::hp {
 
   } else {
 
-    package { ['hp-health', 'hponcfg']:
-      ensure => present,
+    file { '/etc/init.d/hp-health':
+      owner   => root,
+      group   => root,
+      mode    => '0755',
+      content => "#!/bin/sh\nexit 0",
     }
 
-    service { 'hp-health':
-      ensure => running,
-      enable => true,
+    package { ['hp-health', 'hponcfg']:
+      ensure  => present,
+      require => File['/etc/init.d/hp-health'],
     }
 
     nagios::nrpe::service { 'check_hp_hardware':
