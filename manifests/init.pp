@@ -9,11 +9,6 @@ class physical {
     include physical::infiniband
   }
 
-  if $::has_ipmi == 'true' {
-
-    include physical::ipmi
-  }
-
   case $::manufacturer {
 
     'HP' :         { include physical::hp }
@@ -31,6 +26,4 @@ class physical {
 
     include physical::nfs
   }
-
-  include physical::cleanup
 }
