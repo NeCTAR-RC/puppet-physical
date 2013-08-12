@@ -9,4 +9,4 @@ start on runlevel [23] and not-container
 stop on runlevel [!23]
 
 respawn
-exec /sbin/getty -L ttyS1 115200 vt102
+exec /sbin/getty -L <%= serial_tty %> 115200 vt102

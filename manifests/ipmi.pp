@@ -1,4 +1,4 @@
-class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netmask='255.255.255.0') {
+class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netmask='255.255.255.0', $serial_tty='') {
 
   $ipmi_pkgs = ['ipmitool', 'freeipmi-tools', 'bind9-host', 'libipc-run-perl']
 
@@ -9,16 +9,22 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
   puppet::kern_module { 'ipmi_si': ensure => present }
   puppet::kern_module { 'ipmi_devintf': ensure => present }
 
-  file { '/etc/init/ttyS1.conf':
-    ensure => present,
-    source => 'puppet:///modules/physical/ttyS1.conf',
-    notify => Service[ttyS1],
-  }
+  if $serial_tty != '' {
 
-  service { 'ttyS1':
-    ensure   => running,
-    enable   => true,
-    provider => upstart,
+    file { "/etc/init/${serial_tty}.conf":
+      ensure => present,
+      owner  => root,
+      group  => root,
+      mode   => '0644',
+      content => template('physical/ttySX.conf.erb'),
+      notify => Service[$serial_tty],
+    }
+
+    service { "$serial_tty":
+      ensure   => running,
+      enable   => true,
+      provider => upstart,
+    }
   }
 
   file { '/etc/sudoers.d/nagios_ipmi':
