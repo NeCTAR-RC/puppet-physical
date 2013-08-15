@@ -26,4 +26,14 @@ class physical {
 
     include physical::nfs
   }
+
+  puppet::kern_module { 'microcode': ensure => present }
+
+  if $::processor0 =~ /Intel/ {
+
+    package{ 'intel-microcode':
+      ensure => installed,
+    }
+  }
+
 }
