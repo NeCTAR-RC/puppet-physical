@@ -4,11 +4,6 @@ class physical {
     ensure => installed,
   }
 
-  if $::has_infiniband == 'true' {
-
-    include physical::infiniband
-  }
-
   case $::manufacturer {
 
     'HP' :         { include physical::hp }
