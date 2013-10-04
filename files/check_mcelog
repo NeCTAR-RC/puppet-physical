@@ -1,0 +1,17 @@
+#!/bin/bash
+
+mce_logfile=/var/log/mcelog
+
+if [ ! -f "$mce_logfile" ] ; then
+    echo "No logfile exists"
+    exit 3
+else
+    error_count=`fgrep -c "HARDWARE ERROR" $mce_logfile`
+    if [ $error_count -eq 0 ] ; then
+        echo "OK: $error_count hardware errors found"
+        exit 0
+    elif [ $error_count -gt 0 ] ; then
+        echo "WARNING: $error_count hardware errors found"
+        exit 1
+    fi
+fi

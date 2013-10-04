@@ -1,0 +1,27 @@
+#!/bin/bash
+
+edacutil=/usr/bin/edac-util
+
+if [ ! -f "$edacutil" ] ; then
+    echo "$edacutil not installed"
+    exit 3
+else
+    output=`$edacutil | sed -e "s/edac-util: //"`
+    echo "$output" | grep -q -i " uncorrected"
+    if [ "$?" == "0" ] ; then
+        echo "CRITICAL: $output"
+        exit 2
+    fi
+    echo "$output" | grep -q -i " corrected"
+    if [ "$?" == "0" ] ; then
+        echo "WARNING: $output"
+        exit 1
+    fi
+    echo "$output" | grep -q "No errors to report."
+    if [ "$?" == "0" ] ; then
+        echo "OK: $output"
+        exit 0
+    fi
+    echo "UNKNOWN: $output"
+    exit 3
+fi
