@@ -16,8 +16,11 @@ class physical {
     require => Package['edac-utils'],
   }
 
-  nagios::nrpe::service { 'check_edac':
-     check_command => '/usr/local/lib/nagios/plugins/check_edac';
+  if $::kernelmajversion != '2.6' {
+
+    nagios::nrpe::service { 'check_edac':
+      check_command => '/usr/local/lib/nagios/plugins/check_edac';
+    }
   }
 
   file { '/usr/local/lib/nagios/plugins/check_mcelog':
