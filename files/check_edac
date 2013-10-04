@@ -6,7 +6,7 @@ if [ ! -f "$edacutil" ] ; then
     echo "$edacutil not installed"
     exit 3
 else
-    output=`$edacutil | sed -e "s/edac-util: //"`
+    output=`$edacutil 2>&1 | sed -e "s/edac-util: //"`
     echo "$output" | grep -q -i " uncorrected"
     if [ "$?" == "0" ] ; then
         echo "CRITICAL: $output"
