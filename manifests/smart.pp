@@ -18,14 +18,14 @@ class physical::smart($ensure='present') {
     group   => root,
     mode    => '0644',
     content => template('physical/smartd.conf.erb'),
-    notify  => Service[smartd],
   }
 
   if $ensure == 'present' {
     service { 'smartd':
       ensure    => running,
       require   => Package['smartmontools'],
-      subscribe => File['/etc/default/smartmontools'],
+      subscribe => [ File['/etc/default/smartmontools'],
+                     File['/etc/smartd.conf'],],
     }
   }
 }
