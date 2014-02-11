@@ -51,8 +51,9 @@ devices {
     # If it doesn't do what you expect, check the output of 'vgscan -vvvv'.
 
 <% if @localdisks -%>
-    # Only scan block devices that are defined in puppet, exclude everything else
-    filter = [<% @localdisks.each do |disk| -%> "a|<%= disk %>|",<% end -%> "r/.*/" ]
+    # Only scan block devices that are defined in puppet,
+    # exclude everything else except qemu-nbd devices.
+    filter = [<% @localdisks.each do |disk| -%> "a|<%= disk %>|",<% end -%> "a|/dev/nbd.*|", "a|/dev/md.*|", "r/.*/" ]
 <% else -%>
     # nothing defined in puppet, scan all block devides
     filter = [ "a/.*/" ]
