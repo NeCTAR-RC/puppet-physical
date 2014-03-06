@@ -1,12 +1,20 @@
 class physical {
 
-  package { ['irqbalance', 'lm-sensors', 'dmidecode', 'binutils']:
-    ensure => installed,
-  }
+  anchor {'physical::begin': }
+  anchor {'physical::end': }
 
-  package { ['edac-utils', 'mcelog']:
-    ensure => installed,
-  }
+  # Set up repositories
+  class { 'physical::repos': }
+
+  # Packages
+  class { 'physical::packages': }
+
+  # Ensure that we set up the repositories before trying to install
+  # the packages
+  Anchor['physical::begin']
+  -> Class['physical::repos']
+  -> Class['physical::packages']
+  -> Anchor['physical::end']
 
   file { '/usr/local/lib/nagios/plugins/check_edac':
     owner  => root,
@@ -58,5 +66,4 @@ class physical {
       ensure => installed,
     }
   }
-
 }
