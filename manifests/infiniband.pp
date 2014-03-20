@@ -8,13 +8,13 @@ class physical::infiniband {
     ensure => absent,
   }
 
-  package { 'mlx4-en-dkms':
+  package { 'mlnx-en-dkms':
     ensure => present,
   }
 
-  exec { 'update-initramfs-mlx':
+  exec { 'update-initramfs-mlnx':
     command     => '/usr/sbin/update-initramfs -k all -u',
-    subscribe   => Package['mlnx4-en-dkms'],
+    subscribe   => Package['mlnx-en-dkms'],
     refreshonly => true,
   }
 }
