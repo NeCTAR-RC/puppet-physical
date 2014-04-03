@@ -1,18 +1,18 @@
-class physical::repos {
+class physical::repo {
 
   case $::manufacturer {
 
-    'HP' :         { include physical::repos::hp }
-    'Dell Inc.' :  { include physical::repos::dell }
-    'Supermicro' : { include physical::repos::supermicro }
+    'HP' :         { include physical::repo::hp }
+    'Dell Inc.' :  { include physical::repo::dell }
+    'Supermicro' : { include physical::repo::supermicro }
 
   }
 
-  include physical::repos::hwraid
+  include physical::repo::hwraid
 
 }
 
-class physical::repos::hwraid {
+class physical::repo::hwraid {
 
   apt::key { 'hwraid':
     key        => '34A9CF8E',
@@ -28,7 +28,7 @@ class physical::repos::hwraid {
   }
 }
 
-class physical::repos::hp {
+class physical::repo::hp {
 
   apt::key { 'hp':
     key        => '57E5E96D',
@@ -44,7 +44,7 @@ class physical::repos::hp {
   }
 }
 
-class physical::repos::dell {
+class physical::repo::dell {
 
   apt::key { 'dell':
     key        => '34D8786F',
@@ -60,6 +60,6 @@ class physical::repos::dell {
   }
 }
 
-class physical::repos::supermicro {
+class physical::repo::supermicro {
 
 }
