@@ -151,7 +151,7 @@ if FileTest.exists?("/usr/bin/ipmitool")
     end
 
     idrac = %x{ipmitool raw 0x2e 0x01 0xa2 0x02 0x00 2>/dev/null | cut -d " " -f 5}.chomp
-    if !idrac.nil?
+    if !idrac.nil? and idrac != ''
       user = '2'
       idrac_user2_priv = %x{ipmitool raw 0x2e 0x02 0xa2 0x02 0x00 0x#{idrac} 0x04 0x0#{user} 0x00 0x00 0xFF 2>/dev/null | cut -d " " -f 13-16}.chomp
       if !idrac_user2_priv.nil?
@@ -163,7 +163,7 @@ if FileTest.exists?("/usr/bin/ipmitool")
         end
       end
       idrac = %x{ipmitool raw 0x2e 0x01 0xa2 0x02 0x00 2>/dev/null | cut -d " " -f 5}.chomp
-      if !idrac.nil?
+      if !idrac.nil? and idrac != ''
         user = '3'
         idrac_user3_priv = %x{ipmitool raw 0x2e 0x02 0xa2 0x02 0x00 0x#{idrac} 0x04 0x0#{user} 0x00 0x00 0xFF 2>/dev/null | cut -d " " -f 13-16}.chomp
         if !idrac_user3_priv.nil?
