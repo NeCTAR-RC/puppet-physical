@@ -1,20 +1,12 @@
 class physical {
 
-  anchor {'physical::begin': }
-  anchor {'physical::end': }
-
   # Set up repositories
-  class { 'physical::repos': }
+  class { 'physical::repo':
+    stage => setup,
+  }
 
   # Packages
-  class { 'physical::packages': }
-
-  # Ensure that we set up the repositories before trying to install
-  # the packages
-  Anchor['physical::begin']
-  -> Class['physical::repos']
-  -> Class['physical::packages']
-  -> Anchor['physical::end']
+  class { 'physical::package': }
 
   file { '/usr/local/lib/nagios/plugins/check_edac':
     owner  => root,
