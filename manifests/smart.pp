@@ -21,7 +21,11 @@ class physical::smart($ensure='present') {
   }
 
   if $ensure == 'present' {
-    service { 'smartd':
+    case $::lsbdistcodename {
+      precise : { $smartservice = 'smartd' }
+      default : { $smartservice = 'smartmontools' }
+    }
+    service { $smartservice :
       ensure    => running,
       require   => Package['smartmontools'],
       subscribe => [ File['/etc/default/smartmontools'],
