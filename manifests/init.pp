@@ -50,12 +50,18 @@ class physical {
     include physical::nfs
   }
 
-  puppet::kern_module { 'microcode': ensure => present }
+  # on trusty this is a builtin module
+  if $::lsbdistcodename == 'precise' {
 
-  if $::processor0 =~ /Intel/ {
+    puppet::kern_module { 'microcode': ensure => present }
 
-    package{ 'intel-microcode':
-      ensure => installed,
+    if $::processor0 =~ /Intel/ {
+
+      package{ 'intel-microcode':
+        ensure => installed,
+      }
+
     }
+
   }
 }
