@@ -83,18 +83,32 @@ if FileTest.exists?("/usr/bin/ipmitool")
     end
 
    if FileTest.exists?("/usr/bin/host")
-      # Do a dns lookup of both e.g. rcc50-ilom.nectar.org.au and rcc50-ipmi.nectar.org.au
-      # Prefer the -ipmi version if it exists
-      ipmi_lookup = %x{host `hostname`-ipmi.`dnsdomainname` | grep "has address" | sed -e "s/.*has address //g" 2>/dev/null}.chomp
-      ilom_lookup = %x{host `hostname`-ilom.`dnsdomainname` | grep "has address" | sed -e "s/.*has address //g" 2>/dev/null}.chomp
-      Facter.add("ipmi_dns_lookup") do
-        setcode do
-          if ipmi_lookup != ''
-            ipmi_lookup
-          else
-            if ilom_lookup != ''
-              ilom_lookup
+      # Do a dns lookup of possible subdomains of the dnsdomainname or variations
+      # of the hostname to find the ipmi ip address - using ipmi/ilom/oob
+      # e.g. if the hostname is rcc50.nectar.org.au, search for the following hostnames:
+      # rcc50.ipmi.nectar.org.au
+      # rcc50-ipmi.nectar.org.au
+      # rcc50.ilom.nectar.org.au
+      # rcc50-ilom.nectar.org.au
+      # rcc50.oob.nectar.org.au
+      # rcc50-oob.nectar.org.au
+      # Stop on the first one that exists and skip the rest
+      ipmi_lookup = ''
+      hostname = %x{hostname}.chomp
+      dnsdomainname = %x{dnsdomainname}.chomp
+      ['ipmi', 'ilom', 'oob'].each do |x|
+        ['.', '-'].each do |sep|
+            if ipmi_lookup != ''
+              next
             end
+            command = "host #{hostname}#{sep}#{x}.#{dnsdomainname} | grep \"has address\" | sed -e \"s/.*has address //g\" 2>/dev/null"
+            ipmi_lookup = %x{#{command}}.chomp
+        end
+      end
+      if ipmi_lookup != ''
+        Facter.add("ipmi_dns_lookup") do
+          setcode do
+            ipmi_lookup
           end
         end
       end
