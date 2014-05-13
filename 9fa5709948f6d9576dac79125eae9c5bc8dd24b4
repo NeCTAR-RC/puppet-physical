@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAT3//9xg\u003d",
+        "filename": "files/mcelog_email_trigger",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-05-13T03:28:47Z",
+      "side": 1,
+      "message": "Can we change subject to \"Hardware error detected via mcelog\"? That will be more useful to someone who doesn\u0027t know what mcelog is.",
+      "revId": "9fa5709948f6d9576dac79125eae9c5bc8dd24b4",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
