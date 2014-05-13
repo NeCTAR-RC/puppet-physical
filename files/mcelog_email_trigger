@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# File is managed by Puppet
+
+echo $MESSAGE | mail -s "mcelog trigger" root
