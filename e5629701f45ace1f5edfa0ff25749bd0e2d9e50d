@@ -1,0 +1,8 @@
+Change-Id: Ie5629701f45ace1f5edfa0ff25749bd0e2d9e50d
+Code-Review+2: Russell Sim <russell.sim@gmail.com>
+Verified+1: Russell Sim <russell.sim@gmail.com>
+Submitted-by: Russell Sim <russell.sim@gmail.com>
+Submitted-at: Thu, 15 May 2014 17:09:15 +1000
+Reviewed-on: https://review.rc.nectar.org.au/1331
+Project: NeCTAR-RC/puppet-physical
+Branch: refs/meta/config
