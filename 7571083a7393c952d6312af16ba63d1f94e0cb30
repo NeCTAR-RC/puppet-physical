@@ -16,6 +16,24 @@
       "revId": "7571083a7393c952d6312af16ba63d1f94e0cb30",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAT3//9lk\u003d",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-05-16T06:26:07Z",
+      "side": 1,
+      "message": "I wondered why I needed an extra indentation space!",
+      "parentUuid": "AAAAT3//9lw\u003d",
+      "revId": "7571083a7393c952d6312af16ba63d1f94e0cb30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
