@@ -103,13 +103,13 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
     exec { 'ipmi_user_priv' :
       command => '/usr/bin/ipmitool user priv 3 4 1',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^3' | awk '{print \$6}')\" == \"ADMINISTRATOR\"",
-      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default]],
+      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default], Exec[ipmi_user_channel_setaccess]],
     }
 
     exec { 'ipmi_user_setpw' :
       command => "/usr/bin/ipmitool user set password 3 \'${password}\'",
       unless  => "/usr/bin/ipmitool user test 3 16 \'${password}\'",
-      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default]],
+      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default], Exec[ipmi_user_channel_setaccess]],
     }
 
     exec { 'ipmi_user_enable' :
@@ -119,6 +119,11 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
 
     exec { 'ipmi_user_enable_sol' :
       command     => '/usr/bin/ipmitool sol payload enable 1 3',
+      refreshonly => true,
+    }
+
+    exec { 'ipmi_user_channel_setaccess':
+      command     => '/usr/bin/ipmitool channel setaccess 1 3 callin=on ipmi=on link=on privilege=4',
       refreshonly => true,
     }
 
