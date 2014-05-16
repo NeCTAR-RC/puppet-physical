@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAT3//9lw\u003d",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2014-05-16T06:20:59Z",
+      "side": 1,
+      "message": "refreshonly* with no underscore",
+      "revId": "7571083a7393c952d6312af16ba63d1f94e0cb30",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
