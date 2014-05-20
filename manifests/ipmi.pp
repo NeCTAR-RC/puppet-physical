@@ -44,7 +44,7 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
 
   nagios::nrpe::service { 'check_ipmi_sensor':
      nrpe_command  => 'check_nrpe_slow_1arg',
-     check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x 1344',
+     check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x 1344,2684,2751',
   }
 
   if $type == 'dhcp' {
