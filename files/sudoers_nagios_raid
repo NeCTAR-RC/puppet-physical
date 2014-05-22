@@ -1,0 +1,6 @@
+User_Alias CHECK_RAID=nagios
+CHECK_RAID ALL=(root) NOPASSWD: /usr/sbin/megacli -PDList -aALL -NoLog
+CHECK_RAID ALL=(root) NOPASSWD: /usr/sbin/megacli -LdInfo -Lall -aALL -NoLog
+CHECK_RAID ALL=(root) NOPASSWD: /usr/sbin/megacli -AdpBbuCmd -GetBbuStatus -aALL -NoLog
+CHECK_RAID ALL=(root) NOPASSWD: /usr/sbin/sas2ircu LIST
+CHECK_RAID ALL=(root) NOPASSWD: /usr/sbin/sas2ircu * STATUS
