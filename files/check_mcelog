@@ -6,7 +6,7 @@ if [ ! -f "$mce_logfile" ] ; then
     echo "No logfile exists"
     exit 3
 else
-    error_count=`fgrep -c "HARDWARE ERROR" $mce_logfile`
+    error_count=`fgrep -c "Hardware event" $mce_logfile`
     if [ $error_count -eq 0 ] ; then
         echo "OK: $error_count hardware errors found"
         exit 0
