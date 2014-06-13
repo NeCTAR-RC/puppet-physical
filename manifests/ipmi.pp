@@ -6,8 +6,15 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
     ensure => present,
   }
 
-  puppet::kern_module { 'ipmi_si': ensure => present }
-  puppet::kern_module { 'ipmi_devintf': ensure => present }
+  puppet::kern_module { 'ipmi_si':
+    ensure => present,
+    before => Exec['ipmi_reset_default_name'],
+  }
+
+  puppet::kern_module { 'ipmi_devintf':
+    ensure => present,
+    before => Exec['ipmi_reset_default_name'],
+  }
 
   if $serial_tty != '' {
 
