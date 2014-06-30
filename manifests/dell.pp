@@ -1,4 +1,6 @@
-class physical::dell {
+class physical::dell (
+  $openmanage_check_args='--no-storage',
+){
 
   file { '/etc/sudoers.d/nagios_dell':
     owner   => root,
@@ -40,7 +42,7 @@ class physical::dell {
   }
 
   nagios::nrpe::service { 'check_openmanage':
-    check_command => '/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage --no-storage',
+    check_command => "/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage $openmanage_check_args",
     nrpe_command  => 'check_nrpe_slow_1arg'
   }
 }
