@@ -54,6 +54,16 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
      check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x 1344,2684,2751',
   }
 
+  if $::ipmi_manufacturer == "DELL Inc" {
+
+    exec { "ipmi_set_dell_lcd_hostname":
+      command => "/usr/bin/ipmitool delloem lcd set mode userdefined $::hostname",
+      unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"$::hostname\"",
+      onlyif  => "/usr/bin/ipmitool delloem 2>&1 | grep lcd",
+      require => Package[$ipmi_pkgs],
+    }
+  }
+
   if $type == 'dhcp' {
 
     exec { 'ipmi_set_dhcp' :
