@@ -9,7 +9,14 @@ class physical {
   class { 'physical::package': }
 
   # Machine Check Exception Log
-  class { 'physical::mcelog': }
+  if $::lsbdistcodename == 'trusty' {
+    if $::processor0 =~ /Intel/ {
+      # mcelog doens't work for AMD in Trusty
+      class { 'physical::mcelog': }
+    } else {
+      class { 'physical::mcelog': }
+    }
+  }
 
   file { '/usr/local/lib/nagios/plugins/check_edac':
     owner   => root,
