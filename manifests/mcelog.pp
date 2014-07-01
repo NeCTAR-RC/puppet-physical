@@ -1,4 +1,6 @@
-class physical::mcelog {
+class physical::mcelog (
+  $mcelog_check_args='',
+){
 
   File {
     owner   => root,
@@ -36,6 +38,6 @@ class physical::mcelog {
   }
 
   nagios::nrpe::service { 'check_mcelog':
-    check_command => '/usr/local/lib/nagios/plugins/check_mcelog',
+    check_command => "/usr/local/lib/nagios/plugins/check_mcelog $mcelog_check_args",
   }
 }

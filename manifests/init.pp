@@ -8,8 +8,10 @@ class physical {
   # Packages
   class { 'physical::package': }
 
-  # Machine Check Exception Log
-  class { 'physical::mcelog': }
+  # Machine Check Exception Log for Intel
+  if $::processor0 =~ /Intel/ {
+    class { 'physical::mcelog': }
+  }
 
   file { '/usr/local/lib/nagios/plugins/check_edac':
     owner   => root,
