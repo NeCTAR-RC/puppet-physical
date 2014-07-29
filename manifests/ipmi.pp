@@ -6,6 +6,19 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
     ensure => present,
   }
 
+  file { '/etc/default/ipmievd':
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    content => "ENABLED=true\n",
+    require => package[$ipmi_pkgs],
+  }
+
+  service { 'ipmievd':
+    ensure  => running,
+    require => file['/etc/default/ipmievd'],
+  }
+
   puppet::kern_module { 'ipmi_si':
     ensure => present,
     before => Exec['ipmi_reset_default_name'],
