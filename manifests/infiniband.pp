@@ -1,20 +1,23 @@
 class physical::infiniband {
 
-  file { '/etc/modprobe.d/mlx4.conf':
-    ensure  => absent,
-  }
+  if $::lsbdistcodename == 'precise' {
 
-  package { 'mlx4-dkms':
-    ensure => absent,
-  }
+    package { 'mlx4-dkms':
+      ensure => absent,
+    }
 
-  package { 'mlnx-en-dkms':
-    ensure => present,
-  }
+    package { 'mlnx-en-dkms':
+      ensure => present,
+    }
 
-  exec { 'update-initramfs-mlnx':
-    command     => '/usr/sbin/update-initramfs -k all -u',
-    subscribe   => Package['mlnx-en-dkms'],
-    refreshonly => true,
+    file { '/etc/modprobe.d/mlx4.conf':
+      ensure  => absent,
+    }
+
+    exec { 'update-initramfs-mlnx':
+      command     => '/usr/sbin/update-initramfs -k all -u',
+      subscribe   => Package['mlnx-en-dkms'],
+      refreshonly => true,
+    }
   }
 }
