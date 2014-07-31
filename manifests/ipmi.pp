@@ -21,12 +21,12 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
 
   puppet::kern_module { 'ipmi_si':
     ensure => present,
-    before => Exec['ipmi_reset_default_name'],
+    before => [Exec['ipmi_reset_default_name'],Service['ipmievd']],
   }
 
   puppet::kern_module { 'ipmi_devintf':
     ensure => present,
-    before => Exec['ipmi_reset_default_name'],
+    before => [Exec['ipmi_reset_default_name'],Service['ipmievd']],
   }
 
   if $serial_tty != '' {
