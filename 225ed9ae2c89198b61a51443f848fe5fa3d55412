@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAT3//8b4\u003d",
+        "filename": "manifests/infiniband.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-08-01T00:27:47Z",
+      "side": 1,
+      "message": "whitespace?",
+      "revId": "225ed9ae2c89198b61a51443f848fe5fa3d55412",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
