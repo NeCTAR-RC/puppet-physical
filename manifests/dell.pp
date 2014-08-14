@@ -35,6 +35,16 @@ class physical::dell (
     mode   => '1664'
   }
 
+  puppet::kern_module { 'ipmi_si':
+    ensure => present,
+    before => Service['dataeng'],
+  }
+
+  puppet::kern_module { 'ipmi_devintf':
+    ensure => present,
+    before => Service['dataeng'],
+  }
+
   service { 'dataeng':
     ensure  => 'running',
     enable  => 'true',
