@@ -35,20 +35,12 @@ class physical::dell (
     mode   => '1664'
   }
 
-  puppet::kern_module { 'ipmi_si':
-    ensure => present,
-    before => Service['dataeng'],
-  }
-
-  puppet::kern_module { 'ipmi_devintf':
-    ensure => present,
-    before => Service['dataeng'],
-  }
-
   service { 'dataeng':
     ensure  => 'running',
     enable  => 'true',
-    require => Package['srvadmin-base'],
+    require => [ Package['srvadmin-base'],
+                 Puppet::Kern_module['ipmi_devintf'],
+                 Puppet::Kern_module['ipmi_si'],],
   }
 
   nagios::nrpe::service { 'check_openmanage':
