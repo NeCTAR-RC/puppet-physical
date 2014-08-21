@@ -2,6 +2,8 @@ class physical::dell (
   $openmanage_check_args='--no-storage',
 ){
 
+  include physical::ipmi::kern_modules
+
   file { '/etc/sudoers.d/nagios_dell':
     owner   => root,
     group   => root,
