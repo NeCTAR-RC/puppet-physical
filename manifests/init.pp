@@ -58,8 +58,6 @@ class physical {
       package{ 'intel-microcode':
         ensure => installed,
       }
-
     }
-
   }
 }
