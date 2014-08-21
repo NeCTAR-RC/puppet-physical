@@ -1,4 +1,11 @@
-class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netmask='255.255.255.0', $serial_tty='') {
+class physical::ipmi (
+    $user = 'root',
+    $password,
+    $type = 'dhcp',
+    $gateway,
+    $netmask='255.255.255.0',
+    $serial_tty='')
+inherits physical {
 
   $ipmi_pkgs = ['ipmitool', 'freeipmi-tools', 'bind9-host', 'libipc-run-perl']
 
@@ -16,17 +23,9 @@ class physical::ipmi ($user = 'root', $password, $type = 'dhcp', $gateway, $netm
 
   service { 'ipmievd':
     ensure  => running,
-    require => file['/etc/default/ipmievd'],
-  }
-
-  puppet::kern_module { 'ipmi_si':
-    ensure => present,
-    before => [Exec['ipmi_reset_default_name'],Service['ipmievd']],
-  }
-
-  puppet::kern_module { 'ipmi_devintf':
-    ensure => present,
-    before => [Exec['ipmi_reset_default_name'],Service['ipmievd']],
+    require => [ File['/etc/default/ipmievd'],
+                 Puppet::Kern_module['ipmi_devintf'],
+                 Puppet::Kern_module['ipmi_si'],],
   }
 
   if $serial_tty != '' {
