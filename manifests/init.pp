@@ -30,6 +30,14 @@ class physical {
     check_command => '/usr/local/lib/nagios/plugins/check_edac';
   }
 
+  puppet::kern_module { 'ipmi_si':
+    ensure => present,
+  }
+
+  puppet::kern_module { 'ipmi_devintf':
+    ensure => present,
+  }
+
   case $::manufacturer {
 
     'HP' :         { include physical::hp }
