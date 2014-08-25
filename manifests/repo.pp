@@ -1,14 +1,25 @@
 class physical::repo {
 
   case $::manufacturer {
-
-    'HP' :         { include physical::repo::hp }
-    'Dell Inc.' :  { include physical::repo::dell }
-    'Supermicro' : { include physical::repo::supermicro }
-
+    'HP' :         {
+      class {'physical::repo::hp':
+        stage => setup,
+      }
+    }
+    'Dell Inc.' :  {
+      class {'physical::repo::dell':
+        stage => setup,
+      }
+    }
+    'Supermicro' : {
+      class {'physical::repo::supermicro':
+        stage => setup,
+      }
+    }
   }
-
-  include physical::repo::hwraid
+  class {'physical::repo::hwraid':
+    stage => setup,
+  }
 
 }
 
