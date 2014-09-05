@@ -4,6 +4,8 @@ class physical::smart($ensure='present') {
     ensure => $ensure,
   }
 
+  $localdisks = hiera('physical::localdisks')
+
   file { '/etc/default/smartmontools':
     ensure => $ensure,
     owner  => root,
