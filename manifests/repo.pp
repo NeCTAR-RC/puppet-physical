@@ -63,7 +63,7 @@ class physical::repo::hp {
 
   apt::source { 'hp':
     location    => 'http://downloads.linux.hp.com/SDR/downloads/MCP/ubuntu',
-    release     => 'precise/current',
+    release     => "${::lsbdistcodename}/current",
     repos       => 'non-free',
     include_src => false,
   }

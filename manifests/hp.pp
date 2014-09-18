@@ -9,13 +9,13 @@ class physical::hp {
 
   if $::broken_hp == 'true' {
 
-    package { ['hp-health', 'hponcfg']:
+    package { ['hp-health', 'hponcfg', 'hpacucli']:
       ensure => absent,
     }
 
   } else {
 
-    package { ['hp-health', 'hponcfg']:
+    package { ['hp-health', 'hponcfg', 'hpacucli']:
       ensure  => present,
     }
 
@@ -25,10 +25,6 @@ class physical::hp {
   }
 
   if $::hp_raid == 'true' {
-
-    package { ['hpacucli']:
-      ensure => installed,
-    }
 
     nagios::nrpe::service { 'check_hp_raid':
       check_command => '/usr/local/lib/nagios/plugins/check_cciss -s',
