@@ -1,21 +1,21 @@
 class physical::smart($ensure='present') {
 
   package { 'smartmontools' :
-    ensure => $ensure,
+    ensure => 'present'
   }
 
   $localdisks = hiera('physical::localdisks')
 
   file { '/etc/default/smartmontools':
-    ensure => $ensure,
-    owner  => root,
-    group  => root,
-    mode   => '0644',
-    source => 'puppet:///modules/physical/smartmontools',
+    ensure  => 'present',
+    owner   => root,
+    group   => root,
+    mode    => '0644',
+    content => template('physical/etc-default-smartmontools.erb'),
   }
 
   file { '/etc/smartd.conf':
-    ensure  => $ensure,
+    ensure  => 'present',
     owner   => root,
     group   => root,
     mode    => '0644',
