@@ -20,7 +20,7 @@ class physical::hp {
     }
 
     nagios::nrpe::service { 'check_hp_hardware':
-      check_command => '/usr/local/lib/nagios/plugins/check_hpasm --ignore-dimms';
+      check_command => '/usr/lib/nagios/plugins/check_hpasm --ignore-dimms';
     }
   }
 
@@ -32,10 +32,7 @@ class physical::hp {
   }
 
   file { '/usr/local/lib/nagios/plugins/check_hpasm':
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///modules/physical/check_hpasm',
+    ensure => absent,
   }
 
   file {'/usr/local/lib/nagios/plugins/check_cciss':
