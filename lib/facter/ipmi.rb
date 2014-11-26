@@ -95,14 +95,20 @@ if FileTest.exists?("/usr/bin/ipmitool")
       # Stop on the first one that exists and skip the rest
       ipmi_lookup = ''
       hostname = %x{hostname}.chomp
-      dnsdomainname = %x{dnsdomainname}.chomp
-      ['ipmi', 'ilom', 'oob'].each do |x|
-        ['.', '-'].each do |sep|
+      if !Facter.value(:ipmi_domain).nil?
+        dnsdomainname = Facter.value(:ipmi_domain)
+        command = "host #{hostname}.#{dnsdomainname} | grep \"has address\" | sed -e \"s/.*has address //g\" 2>/dev/null"
+        ipmi_lookup = %x{#{command}}.chomp
+      else
+        dnsdomainname = %x{dnsdomainname}.chomp
+        ['ipmi', 'ilom', 'oob'].each do |x|
+          ['.', '-'].each do |sep|
             if ipmi_lookup != ''
               next
             end
             command = "host #{hostname}#{sep}#{x}.#{dnsdomainname} | grep \"has address\" | sed -e \"s/.*has address //g\" 2>/dev/null"
             ipmi_lookup = %x{#{command}}.chomp
+          end
         end
       end
       if ipmi_lookup != ''

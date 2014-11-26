@@ -4,6 +4,7 @@ class physical::ipmi (
     $type = 'dhcp',
     $gateway,
     $netmask='255.255.255.0',
+    $domain='',
     $serial_tty='')
 inherits physical {
 
@@ -30,15 +31,25 @@ inherits physical {
                  Puppet::Kern_module['ipmi_si'],],
   }
 
+  if $domain != '' {
+    file { '/etc/facter/facts.d/ipmi_domain.txt':
+      ensure  => present,
+      owner   => root,
+      group   => root,
+      mode    => '0644',
+      content => "ipmi_domain=${domain}",
+    }
+  }
+
   if $serial_tty != '' {
 
     file { "/etc/init/${serial_tty}.conf":
-      ensure => present,
-      owner  => root,
-      group  => root,
-      mode   => '0644',
+      ensure  => present,
+      owner   => root,
+      group   => root,
+      mode    => '0644',
       content => template('physical/ttySX.conf.erb'),
-      notify => Service[$serial_tty],
+      notify  => Service[$serial_tty],
     }
 
     service { "$serial_tty":
