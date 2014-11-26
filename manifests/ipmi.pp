@@ -5,6 +5,7 @@ class physical::ipmi (
     $gateway,
     $netmask='255.255.255.0',
     $domain='',
+    $lan_channel=1,
     $serial_tty='')
 inherits physical {
 
@@ -92,7 +93,7 @@ inherits physical {
   if $type == 'dhcp' {
 
     exec { 'ipmi_set_dhcp' :
-      command => '/usr/bin/ipmitool lan set 1 ipsrc dhcp',
+      command => "/usr/bin/ipmitool lan set ${lan_channel} ipsrc dhcp",
       onlyif  => '/usr/bin/test $(ipmitool lan print 1 | grep \'IP Address Source\' | cut -f 2 -d : | grep -c DHCP) -eq 0',
     }
   }
@@ -102,23 +103,23 @@ inherits physical {
    $lookup = $::ipmi_dns_lookup
 
    exec { 'ipmi_set_static' :
-      command => '/usr/bin/ipmitool lan set 1 ipsrc static',
+      command => "/usr/bin/ipmitool lan set ${lan_channel} ipsrc static",
       onlyif  => '/usr/bin/test $(ipmitool lan print 1 | grep \'IP Address Source\' | cut -f 2 -d : | grep -c DHCP) -eq 1',
       notify  => [Exec[ipmi_set_ipaddr], Exec[ipmi_set_defgw], Exec[ipmi_set_netmask]],
     }
 
     exec { 'ipmi_set_ipaddr' :
-      command => "/usr/bin/ipmitool lan set 1 ipaddr ${lookup}",
+      command => "/usr/bin/ipmitool lan set ${lan_channel} ipaddr ${lookup}",
       onlyif  => "/usr/bin/test \"$(ipmitool lan print 1 | grep 'IP Address  ' | sed -e 's/.* : //g')\" != \"${lookup}\"",
     }
 
     exec { 'ipmi_set_defgw' :
-      command => "/usr/bin/ipmitool lan set 1 defgw ipaddr ${gateway}",
+      command => "/usr/bin/ipmitool lan set ${lan_channel} defgw ipaddr ${gateway}",
       onlyif  => "/usr/bin/test \"$(ipmitool lan print 1 | grep 'Default Gateway IP' | sed -e 's/.* : //g')\" != \"${gateway}\"",
     }
 
     exec { 'ipmi_set_netmask' :
-      command => "/usr/bin/ipmitool lan set 1 netmask ${netmask}",
+      command => "/usr/bin/ipmitool lan set ${lan_channel} netmask ${netmask}",
       onlyif  => "/usr/bin/test \"$(ipmitool lan print 1 | grep 'Subnet Mask' | sed -e 's/.* : //g')\" != \"${netmask}\"",
     }
   }
