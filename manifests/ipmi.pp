@@ -4,6 +4,7 @@ class physical::ipmi (
     $type = 'dhcp',
     $gateway,
     $netmask='255.255.255.0',
+    $domain='',
     $serial_tty='')
 inherits physical {
 
@@ -28,6 +29,16 @@ inherits physical {
     require => [ File['/etc/default/ipmievd'],
                  Puppet::Kern_module['ipmi_devintf'],
                  Puppet::Kern_module['ipmi_si'],],
+  }
+
+  if $domain != '' {
+    file { "/etc/facter/facts.d/ipmi_domain.txt":
+      ensure => present,
+      owner  => root,
+      group  => root,
+      mode   => '0644',
+      content => "ipmi_domain=${domain}",
+    }
   }
 
   if $serial_tty != '' {
