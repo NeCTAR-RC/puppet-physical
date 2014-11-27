@@ -22,6 +22,24 @@
       "revId": "8cdd3f2ddb4fb0062655c3a14a0a2a97b7ee4e95",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_717c9073",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000009
+      },
+      "writtenOn": "2014-11-27T04:23:00Z",
+      "side": 1,
+      "message": "what parameter would you suggest?",
+      "parentUuid": "1af78d9a_b1aef8e5",
+      "revId": "8cdd3f2ddb4fb0062655c3a14a0a2a97b7ee4e95",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
