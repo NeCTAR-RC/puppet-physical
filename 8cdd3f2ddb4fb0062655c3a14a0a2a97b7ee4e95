@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_b1aef8e5",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2014-11-27T03:46:28Z",
+      "side": 1,
+      "message": "Not usually a good idea to use a parameter that has the same name as a fact",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "8cdd3f2ddb4fb0062655c3a14a0a2a97b7ee4e95",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
