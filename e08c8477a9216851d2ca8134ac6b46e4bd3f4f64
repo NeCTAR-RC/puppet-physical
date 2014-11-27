@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af78d9a_b140b836",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2014-11-27T01:02:05Z",
+      "side": 1,
+      "message": "do you need to change here too? and other occurrences below.",
+      "range": {
+        "startLine": 97,
+        "startChar": 53,
+        "endLine": 97,
+        "endChar": 54
+      },
+      "revId": "e08c8477a9216851d2ca8134ac6b46e4bd3f4f64",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
