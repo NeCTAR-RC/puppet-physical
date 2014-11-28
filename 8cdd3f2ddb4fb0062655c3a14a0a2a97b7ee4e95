@@ -40,6 +40,24 @@
       "revId": "8cdd3f2ddb4fb0062655c3a14a0a2a97b7ee4e95",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1af78d9a_d1ff44a9",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2014-11-28T02:20:26Z",
+      "side": 1,
+      "message": "ipmi_domain? hmm although that is a fact too.... it could be ok as it is, but if you want to access the fact domain you won\u0027t be able to as you\u0027ve overwritten it with this paramater. Could catch you out at a later date",
+      "parentUuid": "1af78d9a_717c9073",
+      "revId": "8cdd3f2ddb4fb0062655c3a14a0a2a97b7ee4e95",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
