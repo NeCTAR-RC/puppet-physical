@@ -76,8 +76,8 @@ inherits physical {
   }
 
   nagios::nrpe::service { 'check_ipmi_sensor':
-     nrpe_command  => 'check_nrpe_slow_1arg',
-     check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x 30,52,82,1344,2684,2751,77,83',
+    nrpe_command  => 'check_nrpe_slow_1arg',
+    check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x 30,52,82,1344,2684,2751,77,83,57,90',
   }
 
   if $::ipmi_manufacturer == "DELL Inc" {
