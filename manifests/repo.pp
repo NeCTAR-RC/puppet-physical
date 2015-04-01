@@ -33,7 +33,7 @@ class physical::repo::hwraid {
   }
 
   apt::key { 'hwraid':
-    key        => '34A9CF8E',
+    key        => '0073C11919A641464163F7116005210E23B3D3B4',
     key_server => 'pgp.mit.edu',
     key_options => $key_options
   }
