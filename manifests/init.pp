@@ -33,7 +33,16 @@ class physical {
   case $::manufacturer {
 
     'HP' :         { include physical::hp }
-    'Dell Inc.' :  { include physical::dell }
+    'Dell Inc.' :  {
+        case $::productname {
+            'PowerEdge R630': {
+                class { 'physical::dell':
+                    openmanage_check_args => '--no-storage -b bp=0'
+                }
+            }
+            default: { include physical::dell }
+        }
+    }
     'Supermicro' : { include physical::supermicro }
 
   }
