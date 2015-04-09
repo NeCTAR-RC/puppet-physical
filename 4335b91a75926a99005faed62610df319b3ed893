@@ -16,6 +16,24 @@
       "revId": "4335b91a75926a99005faed62610df319b3ed893",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da2a55be_ef80958d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2015-04-09T07:52:04Z",
+      "side": 1,
+      "message": "the new R630 reports battery status as unknown and nagios reports it as a critical alert\n\n# /usr/local/lib/nagios/plugins/check_openmanage --no-storage\nBattery probe 0 [System Board CMOS Battery] is Unknown Status",
+      "parentUuid": "da2a55be_8fac7937",
+      "revId": "4335b91a75926a99005faed62610df319b3ed893",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
