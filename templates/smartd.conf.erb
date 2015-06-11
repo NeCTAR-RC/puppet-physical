@@ -1,6 +1,12 @@
 # Managed by Puppet
 
-<% if @localdisks -%>
+<% if @disks -%>
+<%- @disks.each do |disk| -%>
+<%-     disk.each do |diskname, configs| -%>
+<%= diskname %> -a<% if configs['type'] %> -d <%= configs['type' ]%><% end %> -m root -M exec /usr/share/smartmontools/smartd-runner -s S/../.././05 -s L/../../7/10
+<%-     end -%>
+<%- end -%>
+<% elsif @localdisks -%>
 <% @localdisks.each do |disk| -%>
 <%= disk %> -a -d removable -m root -M exec /usr/share/smartmontools/smartd-runner -s S/../.././05 -s L/../../7/10
 <% end -%>
