@@ -1,4 +1,5 @@
-class physical::smart($ensure='present') {
+class physical::smart($ensure='present',
+                      $type='removable') {
 
   package { 'smartmontools' :
     ensure => 'present'

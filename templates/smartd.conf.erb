@@ -2,7 +2,7 @@
 
 <% if @localdisks -%>
 <% @localdisks.each do |disk| -%>
-<%= disk %> -a -d removable -m root -M exec /usr/share/smartmontools/smartd-runner -s S/../.././05 -s L/../../7/10
+<%= disk %> -a -d <%= type %> -m root -M exec /usr/share/smartmontools/smartd-runner -s S/../.././05 -s L/../../7/10
 <% end -%>
 <% else -%>
 DEVICESCAN -a -d removable -m root -M exec /usr/share/smartmontools/smartd-runner -s S/../.././05 -s L/../../7/10
