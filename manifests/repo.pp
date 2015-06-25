@@ -79,7 +79,7 @@ class physical::repo::dell {
   }
 
   apt::key { 'dell':
-    key        => '34D8786F',
+    key        => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
     key_server => 'pgp.mit.edu',
     key_options => $key_options
   }
