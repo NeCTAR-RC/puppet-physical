@@ -8,11 +8,13 @@ if FileTest.exists?("/usr/sbin/dmidecode")
     end
   end
 end
-Facter.add('hp_raid') do
-  confine :kernel => :linux
-  %x{/usr/bin/lspci | grep "Hewlett-Packard Company Smart Array"}
-  hp_raid = $?.exitstatus == 0 ? true : false
-  setcode do
-    hp_raid
+if FileTest.exists?("/usr/bin/lspci")
+  Facter.add('hp_raid') do
+    confine :kernel => :linux
+    %x{/usr/bin/lspci | grep "Hewlett-Packard Company Smart Array"}
+    hp_raid = $?.exitstatus == 0 ? true : false
+    setcode do
+      hp_raid
+    end
   end
 end
