@@ -56,8 +56,8 @@ class physical::repo::hp {
   }
 
   apt::key { 'hp':
-    key        => '57E5E96D',
-    key_server => 'pgp.mit.edu',
+    key         => '882F7199B20F94BD7E3E690EFADD8D64B1275EA3',
+    key_server  => 'pgp.mit.edu',
     key_options => $key_options
   }
 
