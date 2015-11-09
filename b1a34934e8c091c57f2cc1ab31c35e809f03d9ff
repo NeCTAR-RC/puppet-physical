@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a106d94_0c77f603",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-11-09T04:04:45Z",
+      "side": 1,
+      "message": "This should be put into its own file (autoload module layout).",
+      "revId": "b1a34934e8c091c57f2cc1ab31c35e809f03d9ff",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a106d94_ac698227",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000105
+      },
+      "writtenOn": "2015-11-09T04:04:45Z",
+      "side": 1,
+      "message": "Hash rockets not aligned.\n\nAlso, see Sam\u0027s comment, has the key expired? Should a newer one be used?",
+      "revId": "b1a34934e8c091c57f2cc1ab31c35e809f03d9ff",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
