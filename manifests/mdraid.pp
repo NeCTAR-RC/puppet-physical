@@ -1,7 +1,7 @@
 class physical::mdraid {
 
   nagios::nrpe::service { 'check_md_raid':
-    check_command => '/usr/lib/nagios/plugins/check_raid -p lsscsi,mdstat,megacli';
+    check_command => '/usr/lib/nagios/plugins/check_raid -p lsscsi,mdstat,megacli --resync=OK';
   }
 
   file { '/etc/sudoers.d/nagios_raid':
