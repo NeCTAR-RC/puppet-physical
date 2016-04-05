@@ -1,4 +1,5 @@
-class physical {
+# Things for physical hosts
+class physical($edac_check=true) {
 
   # Set up repositories
   class { 'physical::repo':
@@ -18,16 +19,18 @@ class physical {
     class { 'physical::mcelog': }
   }
 
-  file { '/usr/local/lib/nagios/plugins/check_edac':
-    owner   => root,
-    group   => root,
-    mode    => '0755',
-    source  => 'puppet:///modules/physical/check_edac',
-    require => Package['edac-utils'],
-  }
+  if $edac_check {
+    file { '/usr/local/lib/nagios/plugins/check_edac':
+      owner   => root,
+      group   => root,
+      mode    => '0755',
+      source  => 'puppet:///modules/physical/check_edac',
+      require => Package['edac-utils'],
+    }
 
-  nagios::nrpe::service { 'check_edac':
-    check_command => '/usr/local/lib/nagios/plugins/check_edac';
+    nagios::nrpe::service { 'check_edac':
+      check_command => '/usr/local/lib/nagios/plugins/check_edac';
+    }
   }
 
   case $::manufacturer {
