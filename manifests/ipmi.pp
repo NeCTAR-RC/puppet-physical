@@ -74,10 +74,19 @@ inherits physical {
     source => 'puppet:///modules/physical/check_ipmi_sensor',
     require => Package[$ipmi_pkgs],
   }
+  
+  case $::dmidecode_product_name {
+    'PowerEdge R630': {
+      $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90,86'
+    }
+    default: {
+      $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90'
+    }
+  }
 
   nagios::nrpe::service { 'check_ipmi_sensor':
     nrpe_command  => 'check_nrpe_slow_1arg',
-    check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x 30,52,82,1344,2684,2751,77,83,57,90',
+    check_command => '/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x ${excluded_ipmi_codes}',
   }
 
   if $::ipmi_manufacturer == "DELL Inc" {
