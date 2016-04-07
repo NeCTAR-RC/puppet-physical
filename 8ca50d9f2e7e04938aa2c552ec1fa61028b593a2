@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad4c104_70cb9c72",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000077
+      },
+      "writtenOn": "2016-04-07T01:30:05Z",
+      "side": 1,
+      "message": "ws",
+      "range": {
+        "startLine": 77,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 2
+      },
+      "revId": "8ca50d9f2e7e04938aa2c552ec1fa61028b593a2",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
