@@ -21,7 +21,7 @@ inherits physical {
     owner   => root,
     group   => root,
     mode    => '0644',
-    content => "ENABLED=true\n",
+    source  => 'puppet:///modules/physical/ipmievd_default',
     require => Package[$ipmi_pkgs],
   }
 
