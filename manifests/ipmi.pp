@@ -94,7 +94,7 @@ inherits physical {
     exec { "ipmi_set_dell_lcd_hostname":
       command => "/usr/bin/ipmitool delloem lcd set mode userdefined $::hostname",
       unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"$::hostname\"",
-      onlyif  => "/usr/bin/ipmitool delloem 2>&1 | grep lcd",
+      onlyif  => "/usr/bin/ipmitool delloem lcd info | grep Text",
       require => Package[$ipmi_pkgs],
     }
   }
