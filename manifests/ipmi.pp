@@ -92,9 +92,7 @@ inherits physical {
   if $::ipmi_manufacturer == "DELL Inc" {
 
     exec { "ipmi_set_dell_lcd_hostname":
-      command => "/usr/bin/ipmitool delloem lcd set mode userdefined $::hostname",
-      unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"$::hostname\"",
-      onlyif  => "/usr/bin/ipmitool delloem 2>&1 | grep lcd",
+      command => "/usr/bin/ipmitool delloem lcd set mode userdefined $::hostname 2>/dev/null || true ",
       require => Package[$ipmi_pkgs],
     }
   }
