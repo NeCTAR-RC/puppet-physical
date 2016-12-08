@@ -33,16 +33,15 @@ class physical::repo::hwraid {
   }
 
   apt::key { 'hwraid':
-    key        => '0073C11919A641464163F7116005210E23B3D3B4',
-    key_server => 'pgp.mit.edu',
-    key_options => $key_options
+    id      => '0073C11919A641464163F7116005210E23B3D3B4',
+    server  => 'pgp.mit.edu',
+    options => $key_options
   }
 
   apt::source { 'hwraid':
     location    => 'http://hwraid.le-vert.net/ubuntu',
     release     => 'precise',
     repos       => 'main',
-    include_src => false,
   }
 }
 
@@ -56,16 +55,15 @@ class physical::repo::hp {
   }
 
   apt::key { 'hp':
-    key         => '882F7199B20F94BD7E3E690EFADD8D64B1275EA3',
-    key_server  => 'pgp.mit.edu',
-    key_options => $key_options
+    id      => '882F7199B20F94BD7E3E690EFADD8D64B1275EA3',
+    server  => 'pgp.mit.edu',
+    options => $key_options
   }
 
   apt::source { 'hp':
     location    => 'http://downloads.linux.hpe.com/SDR/downloads/MCP/ubuntu',
     release     => "${::lsbdistcodename}/current",
     repos       => 'non-free',
-    include_src => false,
   }
 }
 
@@ -79,16 +77,15 @@ class physical::repo::dell {
   }
 
   apt::key { 'dell':
-    key        => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
-    key_server => 'pgp.mit.edu',
-    key_options => $key_options
+    id      => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
+    server  => 'pgp.mit.edu',
+    options => $key_options
   }
 
   apt::source { 'dell':
     location    => 'http://linux.dell.com/repo/community/deb/latest ',
     release     => '/',
     repos       => '',
-    include_src => false,
   }
 }
 
