@@ -7,7 +7,7 @@ class physical::hp {
     source  => 'puppet:///modules/physical/sudoers_nagios_hp',
   }
 
-  if $::broken_hp == 'true' {
+  if str2bool($::broken_hp) {
 
     package { ['hp-health', 'hponcfg', 'hpacucli']:
       ensure => absent,
@@ -24,7 +24,7 @@ class physical::hp {
     }
   }
 
-  if $::hp_raid == 'true' {
+  if str2bool($::hp_raid) {
 
     nagios::nrpe::service { 'check_hp_raid':
       check_command => '/usr/local/lib/nagios/plugins/check_cciss -s',

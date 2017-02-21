@@ -55,8 +55,7 @@ class physical($edac_check=true) {
     include physical::mdraid
   }
 
-  if $::has_nfs_mounts == 'true' {
-
+  if str2bool($::has_nfs_mounts) {
     include physical::nfs
   }
 
