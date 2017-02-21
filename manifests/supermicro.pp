@@ -1,8 +1,9 @@
+# class for supermicro boxes
 class physical::supermicro {
 
   if $::productname == 'H8DGT' {
 
-    if $h8dgt_ps1 == 'true' and $h8dgt_pm_ps1 == 'true' {
+    if str2bool($::h8dgt_ps1) and str2bool($::h8dgt_pm_ps1) {
 
       nagios::nrpe::service  { 'check_powersupply1':
         check_command => '/usr/local/lib/nagios/plugins/check_powersupply 1',
@@ -10,7 +11,7 @@ class physical::supermicro {
       }
     }
 
-    if $h8dgt_ps2 == 'true' and $h8dgt_pm_ps2 == 'true' {
+    if str2bool($::h8dgt_ps2) and str2bool($::h8dgt_pm_ps2) {
 
       nagios::nrpe::service  { 'check_powersupply2':
         check_command => '/usr/local/lib/nagios/plugins/check_powersupply 2',
@@ -18,7 +19,7 @@ class physical::supermicro {
       }
     }
 
-    if $h8dgt_ps3 == 'true' and $h8dgt_pm_ps2 == 'true' {
+    if str2bool($::h8dgt_ps3) and str2bool($::h8dgt_pm_ps2) {
 
       nagios::nrpe::service  { 'check_powersupply3':
         check_command => '/usr/local/lib/nagios/plugins/check_powersupply 3',
