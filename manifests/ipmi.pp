@@ -107,7 +107,7 @@ inherits physical {
     }
   }
 
-  if ($type == 'static') and ($::ipmi_dns_lookup != '' ) {
+  if ($type == 'static') and ($::ipmi_dns_lookup != undef) {
 
    $lookup = $::ipmi_dns_lookup
 
