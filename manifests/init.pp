@@ -10,12 +10,8 @@ class physical($edac_check=true) {
   class { 'physical::package': }
 
   # Machine Check Exception Log
-  if $::lsbdistcodename == 'trusty' {
-    if $::processor0 =~ /Intel/ {
-      # mcelog doens't work for AMD in Trusty
-      class { 'physical::mcelog': }
-    }
-  } else {
+  if $::processor0 =~ /Intel/ {
+    # mcelog doens't work for AMD, uses edac_mce_amd instead
     class { 'physical::mcelog': }
   }
 
