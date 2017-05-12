@@ -17,7 +17,7 @@ if FileTest.exists?("/usr/bin/ipmitool")
     out.each_line do |line|
       larr = line.chomp.split(/ : /)
       if !larr[0].nil?
-        larr[0].rstrip!.lstrip!
+        larr[0].strip!
         case larr[0]
         when "IP Address Source" then
           Facter.add("ipmi_ipsource") do
@@ -62,7 +62,7 @@ if FileTest.exists?("/usr/bin/ipmitool")
     out.each_line do |line|
       larr = line.chomp.split(/ : /)
       if !larr[0].nil?
-        larr[0].rstrip!.lstrip!
+        larr[0].strip!
         case larr[0]
         when "Manufacturer Name" then
           Facter.add("ipmi_manufacturer") do
