@@ -2,8 +2,6 @@ class physical::dell (
   $openmanage_check_args='--no-storage',
 ){
 
-  if $::lsbdistcodename != 'xenial' {
-
     include physical::ipmi::kern_modules
 
     file { '/etc/sudoers.d/nagios_dell':
@@ -14,6 +12,9 @@ class physical::dell (
     }
 
     package { 'srvadmin-base':
+      ensure => present,
+    }
+    package { 'srvadmin-omcommon':
       ensure => present,
     }
 
@@ -51,5 +52,4 @@ class physical::dell (
       check_command => "/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage ${openmanage_check_args}",
       nrpe_command  => 'check_nrpe_slow_1arg'
     }
-  }
 }
