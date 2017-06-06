@@ -83,7 +83,6 @@ class physical::repo::dell {
   }
 
   apt::source { 'dell':
-    # location    => 'http://linux.dell.com/repo/community/deb/latest ',
     location    => 'http://linux.dell.com/repo/community/ubuntu',
     release     => $::lsbdistcodename,
     repos       => 'openmanage',
