@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_cf9f8d4f",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-06-06T00:50:34Z",
+      "side": 1,
+      "message": "don\u0027t comment it out, just remove. This is what git is for :-)",
+      "range": {
+        "startLine": 86,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 71
+      },
+      "revId": "562729e9f887871bdb9d7f6070be566e7ad38065",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
