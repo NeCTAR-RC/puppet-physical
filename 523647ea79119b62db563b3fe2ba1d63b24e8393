@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_90aa02d3",
+        "filename": "manifests/dell.pp",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000177
+      },
+      "writtenOn": "2017-06-13T06:27:46Z",
+      "side": 1,
+      "message": "not sure if needed but should there be a require \u003d\u003e Package[\u0027srvadmin-omcommon\u0027 here ?",
+      "revId": "523647ea79119b62db563b3fe2ba1d63b24e8393",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
