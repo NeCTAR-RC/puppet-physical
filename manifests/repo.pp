@@ -1,26 +1,11 @@
 class physical::repo {
 
   case $::manufacturer {
-    'HP' :         {
-      class {'physical::repo::hp':
-        stage => setup,
-      }
-    }
-    'Dell Inc.' :  {
-      class {'physical::repo::dell':
-        stage => setup,
-      }
-    }
-    'Supermicro' : {
-      class {'physical::repo::supermicro':
-        stage => setup,
-      }
-    }
+    'HP' :         { require ::physical::repo::hp }
+    'Dell Inc.' :  { require ::physical::repo::dell }
+    'Supermicro' : { require ::physical::repo::supermicro }
   }
-  class {'physical::repo::hwraid':
-    stage => setup,
-  }
-
+  require ::physical::repo::hwraid
 }
 
 class physical::repo::hwraid {
@@ -87,8 +72,4 @@ class physical::repo::dell {
     release  => $::lsbdistcodename,
     repos    => 'openmanage',
   }
-}
-
-class physical::repo::supermicro {
-
 }

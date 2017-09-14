@@ -2,12 +2,12 @@
 class physical($edac_check=true) {
 
   # Set up repositories
-  class { 'physical::repo':
-    stage => setup,
-  }
+  class { 'physical::repo': }
 
   # Packages
-  class { 'physical::package': }
+  class { 'physical::package':
+    require => Class['physical::repo'],
+  }
 
   # Machine Check Exception Log
   if $::processor0 =~ /Intel/ {
