@@ -3,7 +3,6 @@ class physical::repo {
   case $::manufacturer {
     'HP' :         { require ::physical::repo::hp }
     'Dell Inc.' :  { require ::physical::repo::dell }
-    'Supermicro' : { require ::physical::repo::supermicro }
   }
   require ::physical::repo::hwraid
 }
