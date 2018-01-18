@@ -3,7 +3,7 @@ class physical::ipmi (
     $password,
     $type = 'dhcp',
     $gateway,
-    $netmask='255.255.255.0',
+    $netmask = hiera('physical::ipmi::netmask', '255.255.255.0'),
     $domain='',
     $lan_channel=1,
     $serial_tty='')
