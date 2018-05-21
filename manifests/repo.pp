@@ -9,7 +9,7 @@ class physical::repo {
 
 class physical::repo::hwraid {
 
-  if $::http_proxy and str2bool($::rfc1918_gateway) {
+  if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
@@ -31,7 +31,7 @@ class physical::repo::hwraid {
 
 class physical::repo::hp {
 
-  if $::http_proxy and str2bool($::rfc1918_gateway) {
+  if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
@@ -53,7 +53,7 @@ class physical::repo::hp {
 
 class physical::repo::dell {
 
-  if $::http_proxy and str2bool($::rfc1918_gateway) {
+  if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
