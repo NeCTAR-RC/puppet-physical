@@ -13,7 +13,7 @@ class physical::repo::hwraid {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
-    $key_options = false
+    $key_options = undef
   }
 
   apt::key { 'hwraid':
@@ -35,7 +35,7 @@ class physical::repo::hp {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
-    $key_options = false
+    $key_options = undef
   }
 
   apt::key { 'hp':
@@ -57,7 +57,7 @@ class physical::repo::dell {
     $key_options = "http-proxy=${::http_proxy}"
   }
   else {
-    $key_options = false
+    $key_options = undef
   }
 
   apt::key { 'dell':
