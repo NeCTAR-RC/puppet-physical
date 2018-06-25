@@ -18,7 +18,7 @@ class physical::repo::hwraid {
 
   apt::key { 'hwraid':
     id      => '0073C11919A641464163F7116005210E23B3D3B4',
-    server  => 'pgp.mit.edu',
+    server  => 'pool.sks-keyservers.net',
     options => $key_options
   }
 
@@ -40,7 +40,7 @@ class physical::repo::hp {
 
   apt::key { 'hp':
     id      => '882F7199B20F94BD7E3E690EFADD8D64B1275EA3',
-    server  => 'pgp.mit.edu',
+    server  => 'pool.sks-keyservers.net',
     options => $key_options
   }
 
@@ -62,7 +62,7 @@ class physical::repo::dell {
 
   apt::key { 'dell':
     id      => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
-    server  => 'pgp.mit.edu',
+    server  => 'pool.sks-keyservers.net',
     options => $key_options
   }
 
