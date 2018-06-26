@@ -66,9 +66,15 @@ class physical::repo::dell {
     options => $key_options
   }
 
+  # Dell has no Bionic OpenManage distro yet
+  $mydistro = $::lsbdistcodename ? {
+    'bionic' => 'xenial',
+    default  => $::lsbdistcodename,
+  }
+
   apt::source { 'dell':
     location => 'http://linux.dell.com/repo/community/ubuntu',
-    release  => $::lsbdistcodename,
+    release  => $mydistro,
     repos    => 'openmanage',
   }
 }
