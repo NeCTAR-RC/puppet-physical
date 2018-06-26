@@ -10,7 +10,8 @@ class physical($edac_check=true) {
   }
 
   # Machine Check Exception Log
-  if $::processor0 =~ /Intel/ {
+  # Note: Bionic removes MCELog https://bugs.launchpad.net/ubuntu/+source/mcelog/+bug/1752251
+  if $::processor0 =~ /Intel/ and versioncmp($::operatingsystemrelease, '18.04') < 0  {
     # mcelog doens't work for AMD, uses edac_mce_amd instead
     class { 'physical::mcelog': }
   }
