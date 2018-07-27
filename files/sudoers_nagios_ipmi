@@ -1,1 +1,1 @@
-nagios  ALL=NOPASSWD:/usr/sbin/ipmimonitoring, /usr/bin/ipmitool, /usr/sbin/ipmi-sensors
+nagios  ALL=NOPASSWD:/usr/sbin/ipmimonitoring, /usr/bin/ipmitool, /usr/sbin/ipmi-sensors, /usr/sbin/ipmi-sel
