@@ -1,8 +1,9 @@
+# Sets up IPMI passwords and networking etc.
 class physical::ipmi (
-    $user = 'root',
     $password,
-    $type = 'dhcp',
     $gateway,
+    $user = 'root',
+    $type = 'dhcp',
     $netmask='255.255.255.0',
     $domain='',
     $lan_channel=1,
@@ -27,9 +28,9 @@ inherits physical {
 
   service { 'ipmievd':
     ensure  => running,
-    require => [ File['/etc/default/ipmievd'],
-                 Puppet::Kern_module['ipmi_devintf'],
-                 Puppet::Kern_module['ipmi_si'],],
+    require => [File['/etc/default/ipmievd'],
+                Puppet::Kern_module['ipmi_devintf'],
+                Puppet::Kern_module['ipmi_si'],],
   }
 
   if $domain != '' {
@@ -53,7 +54,7 @@ inherits physical {
       notify  => Service[$serial_tty],
     }
 
-    service { "$serial_tty":
+    service { '$serial_tty':
       ensure   => running,
       enable   => true,
       provider => upstart,
@@ -67,33 +68,47 @@ inherits physical {
     source => 'puppet:///modules/physical/sudoers_nagios_ipmi',
   }
 
-  file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
-    owner  => root,
-    group  => root,
-    mode   => '0755',
-    source => 'puppet:///modules/physical/check_ipmi_sensor',
-    require => Package[$ipmi_pkgs],
-  }
-
   case $::dmidecode_product_name {
     'PowerEdge R630': {
       $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90,86'
+    }
+    'PowerEdge R430': {
+      $excluded_ipmi_codes = '35,37,56'
     }
     default: {
       $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90'
     }
   }
 
-  nagios::nrpe::service { 'check_ipmi_sensor':
-    nrpe_command  => 'check_nrpe_slow_1arg',
-    check_command => "/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x ${excluded_ipmi_codes}",
+  case $::lsbdistcodename {
+    'bionic': {
+      $check_command = "/usr/lib/nagios/plugins/check_ipmi_sensor -x ${excluded_ipmi_codes}"
+      file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
+        ensure => absent,
+      }
+    }
+    default: {
+      $check_command = "/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x ${excluded_ipmi_codes}"
+      file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
+        owner   => root,
+        group   => root,
+        mode    => '0755',
+        source  => 'puppet:///modules/physical/check_ipmi_sensor',
+        require => Package[$ipmi_pkgs],
+      }
+    }
   }
 
-  if $::ipmi_manufacturer == "DELL Inc" {
+  nagios::nrpe::service { 'check_ipmi_sensor':
+    nrpe_command  => 'check_nrpe_slow_1arg',
+    check_command => $check_command,
+  }
 
-    exec { "ipmi_set_dell_lcd_hostname":
-      command => "/usr/bin/ipmitool delloem lcd set mode userdefined $::hostname",
-      unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"$::hostname\"",
+  if $::ipmi_manufacturer == 'DELL Inc' {
+
+    exec { 'ipmi_set_dell_lcd_hostname':
+      command => "/usr/bin/ipmitool delloem lcd set mode userdefined ${::hostname}",
+      unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"${::hostname}\"",
       onlyif  => '/usr/bin/ipmitool delloem lcd info | grep Text',
       require => Package[$ipmi_pkgs],
     }
@@ -109,9 +124,9 @@ inherits physical {
 
   if ($type == 'static') and ($::ipmi_dns_lookup != undef) {
 
-   $lookup = $::ipmi_dns_lookup
+    $lookup = $::ipmi_dns_lookup
 
-   exec { 'ipmi_set_static' :
+    exec { 'ipmi_set_static' :
       command => "/usr/bin/ipmitool lan set ${lan_channel} ipsrc static",
       onlyif  => "/usr/bin/test $(ipmitool lan print ${lan_channel} | grep 'IP Address Source' | cut -f 2 -d : | grep -c DHCP) -eq 1",
       notify  => [Exec[ipmi_set_ipaddr], Exec[ipmi_set_defgw], Exec[ipmi_set_netmask]],
@@ -133,10 +148,10 @@ inherits physical {
     }
   }
 
-  if $user != "ADMIN" {
+  if $user != 'ADMIN' {
 
     exec { 'ipmi_reset_default_name' :
-      command => "/usr/bin/ipmitool user set name 2 ADMIN",
+      command => '/usr/bin/ipmitool user set name 2 ADMIN',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
       notify  => Exec[ipmi_user_add],
     }
@@ -179,16 +194,16 @@ inherits physical {
       refreshonly => true,
     }
 
-    if $::ipmi_manufacturer == "DELL Inc" {
+    if $::ipmi_manufacturer == 'DELL Inc' {
 
       file { '/usr/local/sbin/idrac_user_priv.sh':
         owner  => root,
         group  => root,
         mode   => '0750',
-        source => "puppet:///modules/physical/idrac_user_priv.sh",
+        source => 'puppet:///modules/physical/idrac_user_priv.sh',
       }
 
-      if ($::idrac_user2_priv != "01 00 00 00") or ($::idrac_user3_priv != "ff 01 00 00") {
+      if ($::idrac_user2_priv != '01 00 00 00') or ($::idrac_user3_priv != 'ff 01 00 00') {
 
         exec { 'set_idrac_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 3 3',
@@ -204,7 +219,7 @@ inherits physical {
   } else {
 
     exec { 'ipmi_reset_default_name' :
-      command => "/usr/bin/ipmitool user set name 2 ADMIN",
+      command => '/usr/bin/ipmitool user set name 2 ADMIN',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
       notify  => [Exec[ipmi_user_priv], Exec[ipmi_user_setpw]],
     }
@@ -231,16 +246,16 @@ inherits physical {
       refreshonly => true,
     }
 
-    if $::ipmi_manufacturer == "DELL Inc" {
+    if $::ipmi_manufacturer == 'DELL Inc' {
 
       file { '/usr/local/sbin/idrac_user_priv.sh':
         owner  => root,
         group  => root,
         mode   => '0750',
-        source => "puppet:///modules/physical/idrac_user_priv.sh",
+        source => 'puppet:///modules/physical/idrac_user_priv.sh',
       }
 
-      if $::idrac_user2_priv != "ff 01 00 00" {
+      if $::idrac_user2_priv != 'ff 01 00 00' {
 
         exec { 'set_idrac_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 2 3',
