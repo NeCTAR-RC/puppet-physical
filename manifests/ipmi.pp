@@ -119,6 +119,7 @@ inherits physical {
     exec { 'ipmi_set_dhcp' :
       command => "/usr/bin/ipmitool lan set ${lan_channel} ipsrc dhcp",
       onlyif  => "/usr/bin/test $(ipmitool lan print ${lan_channel} | grep 'IP Address Source' | cut -f 2 -d : | grep -c DHCP) -eq 0",
+      require => Package[$ipmi_pkgs]
     }
   }
 
@@ -130,21 +131,25 @@ inherits physical {
       command => "/usr/bin/ipmitool lan set ${lan_channel} ipsrc static",
       onlyif  => "/usr/bin/test $(ipmitool lan print ${lan_channel} | grep 'IP Address Source' | cut -f 2 -d : | grep -c DHCP) -eq 1",
       notify  => [Exec[ipmi_set_ipaddr], Exec[ipmi_set_defgw], Exec[ipmi_set_netmask]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_set_ipaddr' :
       command => "/usr/bin/ipmitool lan set ${lan_channel} ipaddr ${lookup}",
       onlyif  => "/usr/bin/test \"$(ipmitool lan print ${lan_channel} | grep 'IP Address  ' | sed -e 's/.* : //g')\" != \"${lookup}\"",
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_set_defgw' :
       command => "/usr/bin/ipmitool lan set ${lan_channel} defgw ipaddr ${gateway}",
       onlyif  => "/usr/bin/test \"$(ipmitool lan print ${lan_channel} | grep 'Default Gateway IP' | sed -e 's/.* : //g')\" != \"${gateway}\"",
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_set_netmask' :
       command => "/usr/bin/ipmitool lan set ${lan_channel} netmask ${netmask}",
       onlyif  => "/usr/bin/test \"$(ipmitool lan print ${lan_channel} | grep 'Subnet Mask' | sed -e 's/.* : //g')\" != \"${netmask}\"",
+      require => Package[$ipmi_pkgs]
     }
   }
 
@@ -154,44 +159,52 @@ inherits physical {
       command => '/usr/bin/ipmitool user set name 2 ADMIN',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
       notify  => Exec[ipmi_user_add],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_disable_default' :
       command     => '/usr/bin/ipmitool user disable 2',
       refreshonly => true,
+      require     => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_add' :
       command => "/usr/bin/ipmitool user set name 3 ${user}",
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^3' | awk '{print \$2}')\" == \"${user}\"",
       notify  => [Exec[ipmi_user_priv], Exec[ipmi_user_setpw]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_priv' :
       command => '/usr/bin/ipmitool user priv 3 4 1',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^3' | awk '{print \$6}')\" == \"ADMINISTRATOR\"",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default], Exec[ipmi_user_channel_setaccess]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_setpw' :
       command => "/usr/bin/ipmitool user set password 3 \'${password}\'",
       unless  => "/usr/bin/ipmitool user test 3 16 \'${password}\'",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default], Exec[ipmi_user_channel_setaccess]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_enable' :
       command     => '/usr/bin/ipmitool user enable 3',
       refreshonly => true,
+      require     => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_enable_sol' :
       command     => '/usr/bin/ipmitool sol payload enable 1 3',
       refreshonly => true,
+      require     => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_channel_setaccess':
       command     => '/usr/bin/ipmitool channel setaccess 1 3 callin=on ipmi=on link=on privilege=4',
       refreshonly => true,
+      require     => Package[$ipmi_pkgs]
     }
 
     if $::ipmi_manufacturer == 'DELL Inc' {
@@ -207,12 +220,14 @@ inherits physical {
 
         exec { 'set_idrac_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 3 3',
-          require => File['/usr/local/sbin/idrac_user_priv.sh'],
+          require => [File['/usr/local/sbin/idrac_user_priv.sh'],
+                      Package[$ipmi_pkgs]],
         }
 
         exec { 'remove_idrac_admin_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 2 1',
-          require => File['/usr/local/sbin/idrac_user_priv.sh'],
+          require => [File['/usr/local/sbin/idrac_user_priv.sh'],
+                      Package[$ipmi_pkgs]],
         }
       }
     }
@@ -222,28 +237,33 @@ inherits physical {
       command => '/usr/bin/ipmitool user set name 2 ADMIN',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
       notify  => [Exec[ipmi_user_priv], Exec[ipmi_user_setpw]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_priv' :
       command => '/usr/bin/ipmitool user priv 2 4 1',
       unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$6}')\" == \"ADMINISTRATOR\"",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_setpw' :
       command => "/usr/bin/ipmitool user set password 2 \'${password}\'",
       unless  => "/usr/bin/ipmitool user test 2 16 \'${password}\'",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
+      require => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_enable' :
       command     => '/usr/bin/ipmitool user enable 2',
       refreshonly => true,
+      require     => Package[$ipmi_pkgs]
     }
 
     exec { 'ipmi_user_enable_sol' :
       command     => '/usr/bin/ipmitool sol payload enable 1 2',
       refreshonly => true,
+      require     => Package[$ipmi_pkgs]
     }
 
     if $::ipmi_manufacturer == 'DELL Inc' {
@@ -259,7 +279,8 @@ inherits physical {
 
         exec { 'set_idrac_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 2 3',
-          require => File['/usr/local/sbin/idrac_user_priv.sh'],
+          require => [File['/usr/local/sbin/idrac_user_priv.sh'],
+                      Package[$ipmi_pkgs]],
         }
       }
     }
