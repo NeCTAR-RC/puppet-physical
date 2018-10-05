@@ -77,4 +77,7 @@ class physical::repo::dell {
     release  => $mydistro,
     repos    => 'openmanage',
   }
+
+  Apt::Source <| title == 'dell' |> -> Class['apt::update'] -> Package <| tag == 'dell' |>
+
 }

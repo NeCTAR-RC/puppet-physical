@@ -13,9 +13,11 @@ class physical::dell (
 
     package { 'srvadmin-base':
       ensure => present,
+      tag    => 'dell',
     }
     package { 'srvadmin-omcommon':
       ensure => present,
+      tag    => 'dell',
     }
 
     file { '/usr/local/lib/nagios/plugins/check_openmanage':
