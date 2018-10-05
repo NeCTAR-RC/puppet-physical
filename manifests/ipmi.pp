@@ -16,6 +16,10 @@ inherits physical {
     ensure => present,
   }
 
+  Exec {
+    require => Package[$ipmi_pkgs]
+  }
+
   include physical::ipmi::kern_modules
 
   file { '/etc/default/ipmievd':
