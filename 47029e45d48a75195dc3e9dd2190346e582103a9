@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b51626b_017a723e",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-10-09T05:17:27Z",
+      "side": 1,
+      "message": "\u003e Sometimes this is powerful and useful, and other times it’s really bad...\n\nhttps://puppet.com/docs/puppet/5.3/lang_resources_advanced.html#local-resource-defaults\n\n:D",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "47029e45d48a75195dc3e9dd2190346e582103a9",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
