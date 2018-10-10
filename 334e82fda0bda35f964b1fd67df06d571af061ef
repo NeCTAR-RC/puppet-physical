@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd17dab4_ffbd68c2",
+        "filename": "manifests/ipmi.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000104
+      },
+      "writtenOn": "2018-10-10T06:10:10Z",
+      "side": 1,
+      "message": "you could have added the require here and save yourself the following 3 requires :P",
+      "range": {
+        "startLine": 217,
+        "startChar": 7,
+        "endLine": 217,
+        "endChar": 7
+      },
+      "revId": "334e82fda0bda35f964b1fd67df06d571af061ef",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
