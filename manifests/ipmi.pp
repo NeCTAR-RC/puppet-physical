@@ -1,13 +1,15 @@
 # Sets up IPMI passwords and networking etc.
 class physical::ipmi (
-    $password,
-    $gateway,
-    $user = 'root',
-    $type = 'dhcp',
-    $netmask='255.255.255.0',
-    $domain='',
-    $lan_channel=1,
-    $serial_tty='')
+  $password,
+  $gateway,
+  $user = 'root',
+  $type = 'dhcp',
+  $netmask='255.255.255.0',
+  $domain='',
+  $lan_channel=1,
+  $serial_tty='',
+  $sensor_ignore_codes=undef,
+)
 inherits physical {
 
   $ipmi_pkgs = ['ipmitool', 'freeipmi-tools', 'bind9-host', 'libipc-run-perl']
@@ -68,15 +70,20 @@ inherits physical {
     source => 'puppet:///modules/physical/sudoers_nagios_ipmi',
   }
 
-  case $::dmidecode_product_name {
-    'PowerEdge R630': {
-      $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90,86'
-    }
-    'PowerEdge R430': {
-      $excluded_ipmi_codes = '35,37,56'
-    }
-    default: {
-      $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90'
+  if $sensor_ignore_codes == undef {
+
+    case $::dmidecode_product_name {
+      'PowerEdge R630': {
+        $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90,86'
+      }
+      'PowerEdge R430': {
+        $excluded_ipmi_codes = '35,37,56'
+      }
+      default: {
+        $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90'
+      }
+    } else {
+      $excluded_ipmi_codes = $sensor_ignore_codes
     }
   }
 
