@@ -66,16 +66,20 @@ class physical::repo::dell {
     options => $key_options
   }
 
-  # Dell has no Bionic OpenManage distro yet
-  $mydistro = $::lsbdistcodename ? {
-    'bionic' => 'xenial',
-    default  => $::lsbdistcodename,
+  # follow the guide on https://linux.dell.com/repo/community/openmanage/
+  if versioncmp($::operatingsystemrelease, '18.04') < 0 { # pre-bionic
+    apt::source { 'dell':
+      location => 'http://linux.dell.com/repo/community/ubuntu',
+      release  => $::lsbdistcodename,
+      repos    => 'openmanage',
+    }
   }
-
-  apt::source { 'dell':
-    location => 'http://linux.dell.com/repo/community/ubuntu',
-    release  => $mydistro,
-    repos    => 'openmanage',
+  else { # bionic and later
+    apt::source { 'dell':
+      location  => "http://linux.dell.com/repo/community/openmanage/920/${::lsbdistcodename}",
+      release   => $::lsbdistcodename,
+      repos     => 'main',
+    }
   }
 
   Apt::Source <| title == 'dell' |> -> Class['apt::update'] -> Package <| tag == 'dell' |>
