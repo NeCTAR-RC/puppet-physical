@@ -41,16 +41,23 @@ class physical::dell (
       group  => 'nagios',
       mode   => '1664'
     }
-
-    service { 'dataeng':
-      ensure  => running,
-      enable  => true,
-      require => [Package['srvadmin-base'],
+    if versioncmp($::operatingsystemrelease, '18.04') < 0 { # pre-bionic
+      service { 'dataeng':
+        ensure  => running,
+        enable  => true,
+        require => [Package['srvadmin-base'],
                   Package['srvadmin-omcommon'],
                   Puppet::Kern_module['ipmi_devintf'],
                   Puppet::Kern_module['ipmi_si'],],
+      }
     }
-
+    else { # bionic and newer with OM 9+ don't have /etc/init.d/dataeng
+      service { ['dsm_sa_datamgrd.service', 'dsm_sa_eventmgrd.service', ]:
+        ensure  => 'running',
+        enable  => true,
+        require => Package['srvadmin-base'],
+      }
+    }
     nagios::nrpe::service { 'check_openmanage':
       check_command => "/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage ${openmanage_check_args}",
       nrpe_command  => 'check_nrpe_slow_1arg'
