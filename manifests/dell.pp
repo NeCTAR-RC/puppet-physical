@@ -11,11 +11,7 @@ class physical::dell (
       source => 'puppet:///modules/physical/sudoers_nagios_dell',
     }
 
-    package { 'srvadmin-base':
-      ensure => present,
-      tag    => 'dell',
-    }
-    package { 'srvadmin-omcommon':
+    package { ['srvadmin-base', 'srvadmin-omcommon', 'srvadmin-omacore']:
       ensure => present,
       tag    => 'dell',
     }
@@ -55,7 +51,7 @@ class physical::dell (
       service { ['dsm_sa_datamgrd.service', 'dsm_sa_eventmgrd.service', ]:
         ensure  => 'running',
         enable  => true,
-        require => Package['srvadmin-base'],
+        require => [Package['srvadmin-base'], Package['srvadmin-omacore']],
       }
     }
     nagios::nrpe::service { 'check_openmanage':
