@@ -76,7 +76,7 @@ class physical::repo::dell {
   }
   else { # bionic and later
     apt::source { 'dell':
-      location => "http://linux.dell.com/repo/community/openmanage/920/${::lsbdistcodename}",
+      location => "http://linux.dell.com/repo/community/openmanage/930/${::lsbdistcodename}",
       release  => $::lsbdistcodename,
       repos    => 'main',
     }
