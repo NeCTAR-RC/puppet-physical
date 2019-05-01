@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae5cdf2_155fc40f",
+        "filename": "manifests/dell.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000141
+      },
+      "writtenOn": "2019-05-01T00:12:45Z",
+      "side": 1,
+      "message": "Jenkins doesn\u0027t like tabs here, spaces only",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 2
+      },
+      "revId": "ed899df015114740fab4afeee09fd29455e3ba2b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
+    }
+  ]
+}
