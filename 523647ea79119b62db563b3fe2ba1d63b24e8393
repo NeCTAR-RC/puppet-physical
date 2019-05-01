@@ -16,6 +16,24 @@
       "revId": "523647ea79119b62db563b3fe2ba1d63b24e8393",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ae5cdf2_70cad6a2",
+        "filename": "manifests/dell.pp",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000141
+      },
+      "writtenOn": "2019-05-01T00:12:45Z",
+      "side": 1,
+      "message": "srvadmin-base installs by itself ok, omreport command needs srvadmin-omcommon installed",
+      "parentUuid": "1ae5cdf2_90aa02d3",
+      "revId": "523647ea79119b62db563b3fe2ba1d63b24e8393",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
