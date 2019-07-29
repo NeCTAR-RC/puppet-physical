@@ -1,16 +1,15 @@
 # Sets up IPMI passwords and networking etc.
 class physical::ipmi (
   $password,
-  $gateway,
-  $user = 'root',
-  $type = 'dhcp',
-  $netmask='255.255.255.0',
-  $domain='',
-  $lan_channel=1,
-  $serial_tty='',
-  $sensor_ignore_codes=undef,
-)
-inherits physical {
+  $gateway             = undef,
+  $user                = 'root',
+  $type                = 'dhcp',
+  $netmask             = '255.255.255.0',
+  $domain              = '',
+  $lan_channel         = 1,
+  $serial_tty          = '',
+  $sensor_ignore_codes = undef,
+) inherits physical {
 
   $ipmi_pkgs = ['ipmitool', 'freeipmi-tools', 'bind9-host', 'libipc-run-perl']
 
@@ -134,6 +133,10 @@ inherits physical {
   }
 
   if ($type == 'static') and ($::ipmi_dns_lookup != undef) {
+
+    unless $gateway {
+      fail('You must provide gateway if network type is static')
+    }
 
     $lookup = $::ipmi_dns_lookup
 
