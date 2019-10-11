@@ -49,9 +49,10 @@ class physical::dell (
     }
   } else { # bionic and newer with OM 9+ don't have /etc/init.d/dataeng
     service { ['dsm_sa_datamgrd.service', 'dsm_sa_eventmgrd.service', ]:
-      ensure  => 'running',
-      enable  => true,
-      require => [Package['srvadmin-base'], Package['srvadmin-omacore']],
+      ensure   => 'running',
+      enable   => true,
+      provider => 'systemd',
+      require  => [Package['srvadmin-base'], Package['srvadmin-omacore']],
     }
   }
   nagios::nrpe::service { 'check_openmanage':
