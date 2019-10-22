@@ -1,10 +1,13 @@
-class physical::repo {
+class physical::repo( $hwraid = true, ) {
 
   case $::manufacturer {
     'HP' :         { require ::physical::repo::hp }
     'Dell Inc.' :  { require ::physical::repo::dell }
   }
-  require ::physical::repo::hwraid
+
+  if $hwraid {
+    require ::physical::repo::hwraid
+  }
 }
 
 class physical::repo::hwraid {
