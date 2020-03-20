@@ -27,7 +27,7 @@ class physical::repo::hwraid {
 
   apt::source { 'hwraid':
     location    => 'http://hwraid.le-vert.net/ubuntu',
-    release     => 'precise',
+    release     => $::lsbdistcodename,
     repos       => 'main',
   }
 }
