@@ -26,9 +26,10 @@ class physical::repo::hwraid {
   }
 
   apt::source { 'hwraid':
-    location    => 'http://hwraid.le-vert.net/ubuntu',
-    release     => 'precise',
-    repos       => 'main',
+    location => 'http://hwraid.le-vert.net/ubuntu',
+    release  => 'precise',
+    repos    => 'main',
+    require  => Apt::Key['hwraid'],
   }
 }
 
@@ -48,9 +49,10 @@ class physical::repo::hp {
   }
 
   apt::source { 'hp':
-    location    => 'http://downloads.linux.hpe.com/SDR/downloads/MCP/ubuntu',
-    release     => "${::lsbdistcodename}/current",
-    repos       => 'non-free',
+    location => 'http://downloads.linux.hpe.com/SDR/downloads/MCP/ubuntu',
+    release  => "${::lsbdistcodename}/current",
+    repos    => 'non-free',
+    require  => Apt::Key['hp'],
   }
 }
 
