@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8161aff9_0aa0ba34",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-03-24T00:27:57Z",
+      "side": 1,
+      "message": "line up the arrows, looks like they all out of line. Not sure why linter not picking it up",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "05ae1fe2c771f3f293fa3c320a7a3a56023deb8b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc48e61_7e1b0386",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2020-03-24T00:27:57Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 55,
+        "startChar": 13,
+        "endLine": 55,
+        "endChar": 16
+      },
+      "revId": "05ae1fe2c771f3f293fa3c320a7a3a56023deb8b",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
