@@ -12,8 +12,9 @@ class physical::dell (
   }
 
   package { ['srvadmin-base', 'srvadmin-omcommon', 'srvadmin-omacore', 'libxslt1.1']:
-    ensure => present,
-    tag    => 'dell',
+    ensure  => present,
+    tag     => 'dell',
+    require => Exec['apt_update']`
   }
 
   file { '/usr/local/lib/nagios/plugins/check_openmanage':
