@@ -84,6 +84,7 @@ class physical::repo::dell {
       location => "http://linux.dell.com/repo/community/openmanage/930/${::lsbdistcodename}",
       release  => $::lsbdistcodename,
       repos    => 'main',
+      require  => Apt::Key['dell'],
     }
   }
 
