@@ -56,7 +56,9 @@ class physical::repo::hp {
   }
 }
 
-class physical::repo::dell {
+class physical::repo::dell(
+  $mirror_url = "http://linux.dell.com/repo/community/openmanage/930/${::lsbdistcodename}",
+) {
 
   if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
@@ -81,7 +83,7 @@ class physical::repo::dell {
   }
   else { # bionic and later
     apt::source { 'dell':
-      location => "http://linux.dell.com/repo/community/openmanage/930/${::lsbdistcodename}",
+      location => $mirror_url,
       release  => $::lsbdistcodename,
       repos    => 'main',
       require  => Apt::Key['dell'],
