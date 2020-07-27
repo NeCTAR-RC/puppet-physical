@@ -1,6 +1,6 @@
 # dell openmanage repo
 class physical::repo::dell(
-  $mirror_url = "http://linux.dell.com/repo/community/openmanage/930/${::lsbdistcodename}",
+  $mirror_url = 'http://linux.dell.com/repo/community/openmanage/930/bionic',
 ) {
 
   if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
@@ -24,10 +24,10 @@ class physical::repo::dell(
       repos    => 'openmanage',
     }
   }
-  else { # bionic and later
+  else { # bionic and later (currently only bionic repo available)
     apt::source { 'dell':
       location => $mirror_url,
-      release  => $::lsbdistcodename,
+      release  => 'bionic',
       repos    => 'main',
       require  => Apt::Key['dell'],
     }
