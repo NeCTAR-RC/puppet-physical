@@ -10,29 +10,6 @@ class physical::repo( $hwraid = true, ) {
   }
 }
 
-class physical::repo::hwraid {
-
-  if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
-    $key_options = "http-proxy=${::http_proxy}"
-  }
-  else {
-    $key_options = undef
-  }
-
-  apt::key { 'hwraid':
-    id      => '0073C11919A641464163F7116005210E23B3D3B4',
-    server  => 'pool.sks-keyservers.net',
-    options => $key_options
-  }
-
-  apt::source { 'hwraid':
-    location => 'http://hwraid.le-vert.net/ubuntu',
-    release  => $::lsbdistcodename,
-    repos    => 'main',
-    require  => Apt::Key['hwraid'],
-  }
-}
-
 class physical::repo::hp {
 
   if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
