@@ -10,7 +10,7 @@ class physical::repo( $hwraid = true, ) {
   }
 }
 
-class physical::repo::hwraid {
+class physical::repo::hwraid($release=$::lsbdistcodename) {
 
   if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
@@ -27,7 +27,7 @@ class physical::repo::hwraid {
 
   apt::source { 'hwraid':
     location => 'http://hwraid.le-vert.net/ubuntu',
-    release  => $::lsbdistcodename,
+    release  => $release,
     repos    => 'main',
     require  => Apt::Key['hwraid'],
   }
