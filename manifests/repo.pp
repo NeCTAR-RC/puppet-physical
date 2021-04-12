@@ -25,9 +25,16 @@ class physical::repo::hwraid {
     options => $key_options
   }
 
+  $hwraid_repo_hiera_override = hiera('physical::hwraid::distcodename')
+  if $hwraid_repo_hiera_override {
+    $dist_codename = $hwraid_repo_hiera_override
+  } else {
+    $dist_codename = $::lsbdistcodename
+  }
+
   apt::source { 'hwraid':
     location => 'http://hwraid.le-vert.net/ubuntu',
-    release  => $::lsbdistcodename,
+    release  => $dist_codename,
     repos    => 'main',
     require  => Apt::Key['hwraid'],
   }
