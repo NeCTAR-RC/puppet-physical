@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ba679e1_996ea160",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2021-04-12T23:07:32Z",
+      "side": 1,
+      "message": "You should instead change this to be\n\nclass physical::repo::hwraid($release\u003d$::lsbdistcodename) {\n\n....",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "750de38572eb4211c06bf5156fb87698af1e1a8e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": true
+    }
+  ]
+}
