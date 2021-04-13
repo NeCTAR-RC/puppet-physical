@@ -22,6 +22,30 @@
       "revId": "750de38572eb4211c06bf5156fb87698af1e1a8e",
       "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de15ece6_b22671e5",
+        "filename": "manifests/repo.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000246
+      },
+      "writtenOn": "2021-04-13T02:53:55Z",
+      "side": 1,
+      "message": "Ack. I\u0027ll update it now.",
+      "parentUuid": "2ba679e1_996ea160",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 30
+      },
+      "revId": "750de38572eb4211c06bf5156fb87698af1e1a8e",
+      "serverId": "f182a8af-62ca-4ceb-ab81-14f8fec9c6c5",
+      "unresolved": false
     }
   ]
 }
