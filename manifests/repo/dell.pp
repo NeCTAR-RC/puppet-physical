@@ -12,7 +12,7 @@ class physical::repo::dell(
 
   apt::key { 'dell':
     id      => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
-    server  => 'pool.sks-keyservers.net',
+    server  => 'keyserver.ubuntu.com',
     options => $key_options
   }
 

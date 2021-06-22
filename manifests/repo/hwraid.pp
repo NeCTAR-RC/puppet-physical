@@ -9,7 +9,7 @@ class physical::repo::hwraid($release=$::lsbdistcodename) {
 
   apt::key { 'hwraid':
     id      => '0073C11919A641464163F7116005210E23B3D3B4',
-    server  => 'pool.sks-keyservers.net',
+    server  => 'keyserver.ubuntu.com',
     options => $key_options
   }
 
