@@ -263,7 +263,7 @@ class physical::ipmi (
     }
 
     exec { 'ipmi_user_setpw' :
-      command => "/usr/bin/ipmitool user set password 2 \'${password}\'",
+      command => "/usr/bin/ipmitool user set password 2 \'${password}\' 16",
       unless  => "/usr/bin/ipmitool user test 2 16 \'${password}\'",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
       require => Package[$ipmi_pkgs]
