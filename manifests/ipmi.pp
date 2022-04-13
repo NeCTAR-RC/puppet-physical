@@ -11,8 +11,6 @@ class physical::ipmi (
   $sensor_ignore_codes = undef,
 ) inherits physical {
 
-  $password_sensitive = Sensitive($password)
-
   require ::stdlib
 
   if $type == 'static' and $gateway !~ Stdlib::IP::Address::V4 {
@@ -200,8 +198,8 @@ class physical::ipmi (
     }
 
     exec { 'ipmi_user_setpw' :
-      command => "/usr/bin/ipmitool user set password 3 \'${password_sensitive}\' 16",
-      unless  => "/usr/bin/ipmitool user test 3 16 \'${password_sensitive}\'",
+      command => "/usr/bin/ipmitool user set password 3 \'${password}\' 16",
+      unless  => "/usr/bin/ipmitool user test 3 16 \'${password}\'",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol], Exec[ipmi_user_disable_default], Exec[ipmi_user_channel_setaccess]],
       require => Package[$ipmi_pkgs]
     }
@@ -265,8 +263,8 @@ class physical::ipmi (
     }
 
     exec { 'ipmi_user_setpw' :
-      command => "/usr/bin/ipmitool user set password 2 \'${password_sensitive}\' 16",
-      unless  => "/usr/bin/ipmitool user test 2 16 \'${password_sensitive}\'",
+      command => "/usr/bin/ipmitool user set password 2 \'${password}\' 16",
+      unless  => "/usr/bin/ipmitool user test 2 16 \'${password}\'",
       notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
       require => Package[$ipmi_pkgs]
     }
