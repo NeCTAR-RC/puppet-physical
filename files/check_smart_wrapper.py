@@ -35,6 +35,9 @@ try:
     )
     drives_check_smart = []
     worst_nagios_res = 0  # OK
+    p_serial = re.compile(r"serial number: +(\b.*\b)", re.IGNORECASE)
+    p_smart_support = re.compile(r"SMART support is: +(\b.*\b)", re.IGNORECASE)
+
     for drive in drives:
 
         # drives that smartctl can't open
@@ -50,9 +53,15 @@ try:
             ["sudo", "/usr/sbin/smartctl", "-i", device, "-d", device_type]
             ).decode()
 
-        result = re.search(r"serial number: +(\b.*\b)", smart_data,
-                            re.IGNORECASE)
+        result = p_serial.search(smart_data)
         if result:
+            # check for smart support
+            result_smart_support = p_smart_support.search(smart_data)
+            if result_smart_support:
+                smart_unknown = "Unavailable - device lacks SMART capability"
+                if result_smart_support.group(1) == smart_unknown:
+                    continue
+
             serial = result.group(1)
             # seen the drive before
             if serial in serials:
