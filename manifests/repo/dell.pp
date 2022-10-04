@@ -1,7 +1,11 @@
 # dell openmanage repo
 class physical::repo::dell(
-  String $mirror_url,
+  String $base_mirror_url,
+  String $openmanage_version,
+  String $distro = $::lsbdistcodename,
 ) {
+
+  $mirror_url="${base_mirror_url}${openmanage_version}/${distro}"
 
   if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"
@@ -20,14 +24,14 @@ class physical::repo::dell(
   if versioncmp($::operatingsystemrelease, '18.04') < 0 { # pre-bionic
     apt::source { 'dell':
       location => 'http://linux.dell.com/repo/community/ubuntu',
-      release  => $::lsbdistcodename,
+      release  => $distro,
       repos    => 'openmanage',
     }
   }
   else { # bionic and later
     apt::source { 'dell':
       location => $mirror_url,
-      release  => $::lsbdistcodename,
+      release  => $distro,
       repos    => 'main',
       require  => Apt::Key['dell'],
     }

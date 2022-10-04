@@ -1,1 +1,2 @@
-physical::repo::dell::mirror_url: 'http://linux.dell.com/repo/community/openmanage/911/xenial'
+physical::repo::dell::base_mirror_url: 'http://linux.dell.com/repo/community/openmanage/'
+physical::repo::dell::openmanage_version: '911'
