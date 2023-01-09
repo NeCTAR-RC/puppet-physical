@@ -1,4 +1,4 @@
-class physical::repo::hwraid($release=$::lsbdistcodename) {
+class physical::repo::hwraid($release=$facts['os']['distro']['codename']) {
 
   if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
     $key_options = "http-proxy=${::http_proxy}"

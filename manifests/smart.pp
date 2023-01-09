@@ -29,7 +29,7 @@ class physical::smart($ensure='present',
   }
 
   if $ensure == 'present' {
-    case $::lsbdistcodename {
+    case $facts['os']['distro']['codename'] {
       precise : { $smartservice = 'smartd' }
       default : { $smartservice = 'smartmontools' }
     }

@@ -27,7 +27,7 @@ class physical::repo::hp {
 
   apt::source { 'hp':
     location => 'http://downloads.linux.hpe.com/SDR/downloads/MCP/ubuntu',
-    release  => "${::lsbdistcodename}/current",
+    release  => "${facts['os']['distro']['codename']}/current",
     repos    => 'non-free',
     require  => Apt::Key['hp'],
   }

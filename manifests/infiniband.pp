@@ -1,6 +1,6 @@
 class physical::infiniband {
 
-  if $::lsbdistcodename == 'precise' {
+  if $facts['os']['distro']['codename'] == 'precise' {
 
     package { 'mlx4-dkms':
       ensure => absent,

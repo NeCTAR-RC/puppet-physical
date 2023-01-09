@@ -95,7 +95,7 @@ class physical::ipmi (
     $excluded_ipmi_codes = $sensor_ignore_codes
   }
 
-  case $::lsbdistcodename {
+  case $facts['os']['distro']['codename'] {
     'bionic': {
       $check_command = "/usr/lib/nagios/plugins/check_ipmi_sensor -x ${excluded_ipmi_codes}"
       file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':

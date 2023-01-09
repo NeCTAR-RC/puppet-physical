@@ -8,5 +8,5 @@ defaults:
 hierarchy:
   - name: 'Data'
     paths:
-      - "%{facts.lsbdistcodename}.yaml"
+      - "%{facts.os.distro.codename}.yaml"
       - 'common.yaml'

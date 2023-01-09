@@ -57,7 +57,7 @@ class physical($edac_check=true) {
   }
 
   # on trusty this is a builtin module
-  if $::lsbdistcodename == 'precise' {
+  if $facts['os']['distro']['codename'] == 'precise' {
 
     puppet::kern_module { 'microcode': ensure => present }
 
