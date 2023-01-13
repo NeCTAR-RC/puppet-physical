@@ -2,7 +2,7 @@
 class physical::repo::dell(
   String $base_mirror_url,
   String $openmanage_version,
-  String $mirror_url = undef,
+  Optional[String] $mirror_url = undef,
   String $distro = $facts['os']['distro']['codename'],
 ) {
 
