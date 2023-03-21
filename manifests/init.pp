@@ -48,7 +48,6 @@ class physical($edac_check=true) {
   }
 
   if $::mdadm_devices != '' {
-
     include physical::mdraid
   }
 
@@ -56,16 +55,4 @@ class physical($edac_check=true) {
     include physical::nfs
   }
 
-  # on trusty this is a builtin module
-  if $facts['os']['distro']['codename'] == 'precise' {
-
-    puppet::kern_module { 'microcode': ensure => present }
-
-    if $::processor0 =~ /Intel/ {
-
-      package{ 'intel-microcode':
-        ensure => installed,
-      }
-    }
-  }
 }
