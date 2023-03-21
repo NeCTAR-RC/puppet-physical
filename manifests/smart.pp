@@ -1,6 +1,10 @@
 # Configure smartd for a host
-class physical::smart($ensure='present',
-                      $disks=undef) {
+class physical::smart(
+  String $ensure         = 'present',
+  Optional[Array] $disks = undef
+) {
+
+  include physical
 
   package { 'smartmontools' :
     ensure => 'present'
@@ -9,7 +13,7 @@ class physical::smart($ensure='present',
   # use physical::smart::disks if exists, else fall back to
   # physical::localdisks to define smartd.conf
   if ! $disks {
-      $localdisks = hiera('physical::localdisks')
+      $localdisks = $physical::localdisks
   }
 
   file { '/etc/default/smartmontools':

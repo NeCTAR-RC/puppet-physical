@@ -1,5 +1,8 @@
 # Things for physical hosts
-class physical($edac_check=true) {
+class physical(
+  Boolean $edac_check = true,
+  Array $localdisks   = [],
+) {
 
   # Set up repositories
   class { 'physical::repo': }

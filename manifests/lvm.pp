@@ -1,10 +1,12 @@
 class physical::lvm {
 
+  include physical
+
   package { 'lvm2':
     ensure => installed,
   }
 
-  $localdisks = hiera('physical::localdisks')
+  $localdisks = $physical::localdisks
 
   file { '/etc/lvm/lvm.conf':
     owner   => root,
