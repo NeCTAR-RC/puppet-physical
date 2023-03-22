@@ -1,1 +1,0 @@
-nagios  ALL=NOPASSWD:/usr/sbin/hpacucli, /sbin/hpasmcli

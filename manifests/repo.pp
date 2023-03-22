@@ -3,11 +3,11 @@ class physical::repo (
 ) {
 
   case $::manufacturer {
-    'HP' :         { require ::physical::repo::hp }
-    'Dell Inc.' :  { require ::physical::repo::dell }
+    'HP':         { require physical::repo::hp }
+    'Dell Inc.':  { require physical::repo::dell }
   }
 
   if $hwraid {
-    require ::physical::repo::hwraid
+    require physical::repo::hwraid
   }
 }
