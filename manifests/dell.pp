@@ -1,5 +1,6 @@
 class physical::dell (
   $openmanage_check_args='--no-storage',
+  $openmanage_check_interval='60',
 ){
 
   include physical::ipmi::kern_modules
@@ -56,7 +57,8 @@ class physical::dell (
     }
   }
   nagios::nrpe::service { 'check_openmanage':
-    check_command => "/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage ${openmanage_check_args}",
-    nrpe_command  => 'check_nrpe_slow_1arg'
+    check_command  => "/usr/bin/sudo /usr/local/lib/nagios/plugins/check_openmanage ${openmanage_check_args}",
+    nrpe_command   => 'check_nrpe_slow_1arg',
+    check_interval => $openmanage_check_interval
   }
 }
