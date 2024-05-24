@@ -77,7 +77,7 @@ class physical::ipmi (
 
   if $sensor_ignore_codes == undef {
 
-    case $::dmidecode_product_name {
+    case $facts['dmidecode_product_name'] {
       'PowerEdge R630': {
         $excluded_ipmi_codes = '30,52,82,1344,2684,2751,77,83,57,90,86'
       }
@@ -119,11 +119,11 @@ class physical::ipmi (
     check_command => $check_command,
   }
 
-  if $::ipmi_manufacturer == 'DELL Inc' {
+  if $facts['ipmi_manufacturer'] == 'DELL Inc' {
 
     exec { 'ipmi_set_dell_lcd_hostname':
-      command => "/usr/bin/ipmitool delloem lcd set mode userdefined ${::hostname}",
-      unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"${::hostname}\"",
+      command => "/usr/bin/ipmitool delloem lcd set mode userdefined ${facts['networking']['hostname']}",
+      unless  => "/usr/bin/test \"$(/usr/bin/ipmitool delloem lcd info | grep Text | awk '{print \$2}')\" == \"${facts['networking']['hostname']}\"",
       onlyif  => '/usr/bin/ipmitool delloem lcd info | grep Text',
       require => Package[$ipmi_pkgs],
     }
@@ -138,9 +138,9 @@ class physical::ipmi (
     }
   }
 
-  if ($type == 'static') and ($::ipmi_dns_lookup != undef) {
+  if ($type == 'static') and ($facts['ipmi_dns_lookup'] != undef) {
 
-    $lookup = $::ipmi_dns_lookup
+    $lookup = $facts['ipmi_dns_lookup']
 
     exec { 'ipmi_set_static' :
       command => "/usr/bin/ipmitool lan set ${lan_channel} ipsrc static",
@@ -222,7 +222,7 @@ class physical::ipmi (
       require     => Package[$ipmi_pkgs]
     }
 
-    if $::ipmi_manufacturer == 'DELL Inc' {
+    if $facts['ipmi_manufacturer'] == 'DELL Inc' {
 
       file { '/usr/local/sbin/idrac_user_priv.sh':
         owner  => root,
@@ -281,7 +281,7 @@ class physical::ipmi (
       require     => Package[$ipmi_pkgs]
     }
 
-    if $::ipmi_manufacturer == 'DELL Inc' {
+    if $facts['ipmi_manufacturer'] == 'DELL Inc' {
 
       file { '/usr/local/sbin/idrac_user_priv.sh':
         owner  => root,

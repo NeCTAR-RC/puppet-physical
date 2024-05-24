@@ -1,7 +1,7 @@
 class physical::repo::hwraid($release=$facts['os']['distro']['codename']) {
 
-  if defined('$::http_proxy') and str2bool($::rfc1918_gateway) {
-    $key_options = "http-proxy=${::http_proxy}"
+  if defined('$::http_proxy') and str2bool($facts['rfc1918_gateway']) {
+    $key_options = "http-proxy=${facts['http_proxy']}"
   }
   else {
     $key_options = undef

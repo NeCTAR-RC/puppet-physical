@@ -1,9 +1,9 @@
 # class for supermicro boxes
 class physical::supermicro {
 
-  if $::productname == 'H8DGT' {
+  if $facts['dmi']['product']['name'] == 'H8DGT' {
 
-    if str2bool($::h8dgt_ps1) and str2bool($::h8dgt_pm_ps1) {
+    if str2bool($facts['h8dgt_ps1']) and str2bool($facts['h8dgt_pm_ps1']) {
 
       nagios::nrpe::service  { 'check_powersupply1':
         check_command => '/usr/local/lib/nagios/plugins/check_powersupply 1',
@@ -11,7 +11,7 @@ class physical::supermicro {
       }
     }
 
-    if str2bool($::h8dgt_ps2) and str2bool($::h8dgt_pm_ps2) {
+    if str2bool($facts['h8dgt_ps2']) and str2bool($facts['h8dgt_pm_ps2']) {
 
       nagios::nrpe::service  { 'check_powersupply2':
         check_command => '/usr/local/lib/nagios/plugins/check_powersupply 2',
@@ -19,7 +19,7 @@ class physical::supermicro {
       }
     }
 
-    if str2bool($::h8dgt_ps3) and str2bool($::h8dgt_pm_ps2) {
+    if str2bool($facts['h8dgt_ps3']) and str2bool($facts['h8dgt_pm_ps2']) {
 
       nagios::nrpe::service  { 'check_powersupply3':
         check_command => '/usr/local/lib/nagios/plugins/check_powersupply 3',
@@ -28,10 +28,10 @@ class physical::supermicro {
     }
 
     file { '/usr/local/lib/nagios/plugins/check_powersupply':
-      owner   => root,
-      group   => root,
-      mode    => '0755',
-      source  => 'puppet:///modules/physical/check_powersupply',
+      owner  => root,
+      group  => root,
+      mode   => '0755',
+      source => 'puppet:///modules/physical/check_powersupply',
     }
   }
 }

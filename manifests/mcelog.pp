@@ -25,14 +25,14 @@ class physical::mcelog {
 
   file { ['/etc/mcelog/cache-error-trigger.local', '/etc/mcelog/dimm-error-trigger.local',
           '/etc/mcelog/page-error-trigger.local', '/etc/mcelog/socket-memory-error-trigger.local']:
-    mode    => '0755',
-    source  => 'puppet:///modules/physical/mcelog_email_trigger',
-    notify  => Service['mcelog'],
+    mode   => '0755',
+    source => 'puppet:///modules/physical/mcelog_email_trigger',
+    notify => Service['mcelog'],
   }
 
   file { '/usr/local/lib/nagios/plugins/check_mcelog':
-    mode    => '0755',
-    source  => 'puppet:///modules/physical/check_mcelog',
+    mode   => '0755',
+    source => 'puppet:///modules/physical/check_mcelog',
   }
 
   nagios::nrpe::service { 'check_mcelog':

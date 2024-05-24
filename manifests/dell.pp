@@ -39,7 +39,7 @@ class physical::dell (
     group  => 'nagios',
     mode   => '1664'
   }
-  if versioncmp($::operatingsystemrelease, '18.04') < 0 {
+  if versioncmp($facts['os']['release']['full'], '18.04') < 0 {
     # pre-bionic
     service { 'dataeng':
       ensure  => running,

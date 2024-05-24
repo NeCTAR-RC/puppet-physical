@@ -14,7 +14,7 @@ class physical(
 
   # Machine Check Exception Log
   # Note: Bionic removes MCELog https://bugs.launchpad.net/ubuntu/+source/mcelog/+bug/1752251
-  if $::processor0 =~ /Intel/ and versioncmp($::operatingsystemrelease, '18.04') < 0  {
+  if $facts['facts']['processors']['models'][0] =~ /Intel/ and versioncmp($facts['os']['release']['full'], '18.04') < 0  {
     # mcelog doens't work for AMD, uses edac_mce_amd instead
     class { 'physical::mcelog': }
   }
@@ -33,11 +33,11 @@ class physical(
     }
   }
 
-  case $::manufacturer {
+  case $facts['dmi']['manufacturer'] {
 
     'HP' :         { include physical::hp }
     'Dell Inc.' :  {
-        case $::productname {
+        case $facts['dmi']['product']['name'] {
             'PowerEdge R630': {
                 class { 'physical::dell':
                     openmanage_check_args => '--no-storage -b bp=0'
@@ -47,14 +47,15 @@ class physical(
         }
     }
     'Supermicro' : { include physical::supermicro }
+    default: {}
 
   }
 
-  if $::mdadm_devices != '' {
+  if $facts['mdadm_devices'] != '' {
     include physical::mdraid
   }
 
-  if str2bool($::has_nfs_mounts) {
+  if str2bool($facts['has_nfs_mounts']) {
     include physical::nfs
   }
 
