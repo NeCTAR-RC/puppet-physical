@@ -11,7 +11,8 @@ class physical::ipmi (
   $sensor_ignore_codes = undef,
 ) inherits physical {
 
-  require ::stdlib
+  include kmod
+  require stdlib
 
   if $type == 'static' and $gateway !~ Stdlib::IP::Address::V4 {
     fail('You must provide gateway as an IPv4 address if network type is static')
@@ -23,8 +24,6 @@ class physical::ipmi (
     ensure => present,
   }
 
-  include physical::ipmi::kern_modules
-
   file { '/etc/default/ipmievd':
     owner   => root,
     group   => root,
@@ -33,11 +32,12 @@ class physical::ipmi (
     require => Package[$ipmi_pkgs],
   }
 
+  kmod::load {'ipmi_si':}
+  kmod::load {'ipmi_devintf':}
+
   service { 'ipmievd':
     ensure  => running,
-    require => [File['/etc/default/ipmievd'],
-                Puppet::Kern_module['ipmi_devintf'],
-                Puppet::Kern_module['ipmi_si'],],
+    require => File['/etc/default/ipmievd'],
   }
 
   if $domain != '' {
@@ -61,7 +61,7 @@ class physical::ipmi (
       notify  => Service[$serial_tty],
     }
 
-    service { '$serial_tty':
+    service { $serial_tty:
       ensure   => running,
       enable   => true,
       provider => upstart,
@@ -299,16 +299,5 @@ class physical::ipmi (
         }
       }
     }
-  }
-}
-
-class physical::ipmi::kern_modules {
-
-  puppet::kern_module { 'ipmi_si':
-    ensure => present,
-  }
-
-  puppet::kern_module { 'ipmi_devintf':
-    ensure => present,
   }
 }
