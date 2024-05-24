@@ -13,17 +13,9 @@ class physical::repo::dell(
     $real_mirror_url="${base_mirror_url}${openmanage_version}/${distro}"
   }
 
-  if defined('$::http_proxy') and str2bool($facts['rfc1918_gateway']) {
-    $key_options = "http-proxy=${facts['http_proxy']}"
-  }
-  else {
-    $key_options = undef
-  }
-
   apt::key { 'dell':
     id      => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
     server  => 'keyserver.ubuntu.com',
-    options => $key_options
   }
 
   # follow the guide on https://linux.dell.com/repo/community/openmanage/
