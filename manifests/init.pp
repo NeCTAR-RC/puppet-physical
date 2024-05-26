@@ -12,13 +12,6 @@ class physical(
     require => Class['physical::repo'],
   }
 
-  # Machine Check Exception Log
-  # Note: Bionic removes MCELog https://bugs.launchpad.net/ubuntu/+source/mcelog/+bug/1752251
-  if $facts['facts']['processors']['models'][0] =~ /Intel/ and versioncmp($facts['os']['release']['full'], '18.04') < 0  {
-    # mcelog doens't work for AMD, uses edac_mce_amd instead
-    class { 'physical::mcelog': }
-  }
-
   if $edac_check {
     file { '/usr/local/lib/nagios/plugins/check_edac':
       owner   => root,

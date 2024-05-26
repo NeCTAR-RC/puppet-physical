@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# File is managed by Puppet
-
-echo $MESSAGE | mail -s "mcelog: Hardware Error Detected" root
