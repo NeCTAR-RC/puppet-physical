@@ -14,25 +14,15 @@ class physical::repo::dell(
   }
 
   apt::key { 'dell':
-    id      => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
-    server  => 'keyserver.ubuntu.com',
+    id     => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
+    source => 'https://linux.dell.com/files/pgp_pubkeys/0x1285491434D8786F.asc'
   }
 
-  # follow the guide on https://linux.dell.com/repo/community/openmanage/
-  if versioncmp($facts['os']['release']['full'], '18.04') < 0 { # pre-bionic
-    apt::source { 'dell':
-      location => 'http://linux.dell.com/repo/community/ubuntu',
-      release  => $distro,
-      repos    => 'openmanage',
-    }
-  }
-  else { # bionic and later
-    apt::source { 'dell':
-      location => $real_mirror_url,
-      release  => $distro,
-      repos    => 'main',
-      require  => Apt::Key['dell'],
-    }
+  apt::source { 'dell':
+    location => $real_mirror_url,
+    release  => $distro,
+    repos    => 'main',
+    require  => Apt::Key['dell'],
   }
 
   Apt::Source <| title == 'dell' |> -> Class['apt::update'] -> Package <| tag == 'dell' |>

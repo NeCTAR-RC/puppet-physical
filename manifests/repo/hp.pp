@@ -1,8 +1,8 @@
 class physical::repo::hp {
 
   apt::key { 'hp':
-    id      => '882F7199B20F94BD7E3E690EFADD8D64B1275EA3',
-    server  => 'pool.sks-keyservers.net',
+    id     => '882F7199B20F94BD7E3E690EFADD8D64B1275EA3',
+    source => 'https://downloads.linux.hpe.com/SDR/repo/mcp/GPG-KEY-mcp',
   }
 
   apt::source { 'hp':
