@@ -44,9 +44,7 @@ class physical::dell (
       ensure  => running,
       enable  => true,
       require => [Package['srvadmin-base'],
-                  Package['srvadmin-omcommon'],
-                  Puppet::Kern_module['ipmi_devintf'],
-                  Puppet::Kern_module['ipmi_si'],],
+                  Package['srvadmin-omcommon'],],
     }
   } else { # bionic and newer with OM 9+ don't have /etc/init.d/dataeng
     service { ['dsm_sa_datamgrd.service', 'dsm_sa_eventmgrd.service', ]:
