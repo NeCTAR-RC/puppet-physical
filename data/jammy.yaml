@@ -1,5 +1,5 @@
 physical::repo::dell::base_mirror_url: 'http://linux.dell.com/repo/community/openmanage/'
-physical::repo::dell::openmanage_version: '10101'
-physical::repo::dell::distro: focal
+physical::repo::dell::openmanage_version: '11010'
+physical::repo::dell::distro: jammy
 
 physical::hddtemp::ensure: absent
