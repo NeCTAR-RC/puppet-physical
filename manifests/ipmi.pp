@@ -231,7 +231,7 @@ class physical::ipmi (
         source => 'puppet:///modules/physical/idrac_user_priv.sh',
       }
 
-      if ($::idrac_user2_priv != '01 00 00 00') or ($::idrac_user3_priv != 'ff 01 00 00') {
+      if ($facts['idrac_user2_priv'] != '01 00 00 00') or ($facts['idrac_user3_priv'] != 'ff 01 00 00') {
 
         exec { 'set_idrac_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 3 3',
@@ -290,7 +290,7 @@ class physical::ipmi (
         source => 'puppet:///modules/physical/idrac_user_priv.sh',
       }
 
-      if $::idrac_user2_priv != 'ff 01 00 00' {
+      if $facts['idrac_user2_priv'] != 'ff 01 00 00' {
 
         exec { 'set_idrac_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 2 3',
