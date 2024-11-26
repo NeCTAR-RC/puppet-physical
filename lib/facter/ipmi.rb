@@ -1,6 +1,6 @@
 require 'thread'
 
-if FileTest.exists?("/usr/sbin/dmidecode")
+if FileTest.exist?("/usr/sbin/dmidecode")
   %x{dmidecode -t 38 2>/dev/null|grep -q "IPMI Device"}
   has_ipmi = $?.exitstatus == 0 ? true : false
   Facter.add("has_ipmi") do
@@ -11,7 +11,7 @@ if FileTest.exists?("/usr/sbin/dmidecode")
   end
 end
 
-if FileTest.exists?("/usr/bin/ipmitool")
+if FileTest.exist?("/usr/bin/ipmitool")
   if has_ipmi
     out = %x{ipmitool lan print 1 2>/dev/null}.chomp
     out.each_line do |line|
@@ -82,7 +82,7 @@ if FileTest.exists?("/usr/bin/ipmitool")
       end
     end
 
-   if FileTest.exists?("/usr/bin/host")
+   if FileTest.exist?("/usr/bin/host")
       # Do a dns lookup of possible subdomains of the dnsdomainname or variations
       # of the hostname to find the ipmi ip address - using ipmi/ilom/oob
       # e.g. if the hostname is rcc50.nectar.org.au, search for the following hostnames:
@@ -92,7 +92,7 @@ if FileTest.exists?("/usr/bin/ipmitool")
       # rcc50-ilom.nectar.org.au
       # rcc50.oob.nectar.org.au
       # rcc50-oob.nectar.org.au
-      # Stop on the first one that exists and skip the rest
+      # Stop on the first one that exist and skip the rest
       ipmi_lookup = ''
       hostname = %x{hostname}.chomp
       if !Facter.value(:ipmi_domain).nil?

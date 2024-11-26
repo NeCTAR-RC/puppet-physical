@@ -1,4 +1,4 @@
-if FileTest.exists?("/usr/bin/lspci")
+if FileTest.exist?("/usr/bin/lspci")
   has_infiniband = Facter::Util::Resolution.exec('/usr/bin/lspci | grep "InfiniBand: Mellanox" | wc -l').chomp
   Facter.add(:has_infiniband) do
     setcode do
