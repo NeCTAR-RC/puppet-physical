@@ -168,11 +168,11 @@ class physical::ipmi (
     }
   }
 
-  if $user == 'ADMIN' {
+  if downcase($user) == 'admin' {
 
     exec { 'ipmi_reset_default_name' :
-      command => '/usr/bin/ipmitool user set name 2 ADMIN',
-      unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
+      command => "/usr/bin/ipmitool user set name 2 ${user}",
+      unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"${user}\"",
       notify  => [Exec[ipmi_user_priv], Exec[ipmi_user_setpw]],
       require => Package[$ipmi_pkgs]
     }
