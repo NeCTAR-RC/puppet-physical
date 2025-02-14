@@ -168,7 +168,62 @@ class physical::ipmi (
     }
   }
 
-  if $user != 'ADMIN' {
+  if $user == 'ADMIN' {
+
+    exec { 'ipmi_reset_default_name' :
+      command => '/usr/bin/ipmitool user set name 2 ADMIN',
+      unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
+      notify  => [Exec[ipmi_user_priv], Exec[ipmi_user_setpw]],
+      require => Package[$ipmi_pkgs]
+    }
+
+    exec { 'ipmi_user_priv' :
+      command => '/usr/bin/ipmitool user priv 2 4 1',
+      unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$6}')\" == \"ADMINISTRATOR\"",
+      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
+      require => Package[$ipmi_pkgs]
+    }
+
+    exec { 'ipmi_user_setpw' :
+      command => Sensitive("/usr/bin/ipmitool user set password 2 \'${password}\' 16"),
+      unless  => Sensitive("/usr/bin/ipmitool user test 2 16 \'${password}\'"),
+      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
+      require => Package[$ipmi_pkgs]
+    }
+
+    exec { 'ipmi_user_enable' :
+      command     => '/usr/bin/ipmitool user enable 2',
+      refreshonly => true,
+      require     => Package[$ipmi_pkgs]
+    }
+
+    exec { 'ipmi_user_enable_sol' :
+      command     => '/usr/bin/ipmitool sol payload enable 1 2',
+      refreshonly => true,
+      require     => Package[$ipmi_pkgs]
+    }
+
+    if $facts['ipmi_manufacturer'] == 'DELL Inc' {
+
+      file { '/usr/local/sbin/idrac_user_priv.sh':
+        owner  => root,
+        group  => root,
+        mode   => '0750',
+        source => 'puppet:///modules/physical/idrac_user_priv.sh',
+      }
+
+      if $facts['idrac_user2_priv'] != 'ff 01 00 00' {
+
+        exec { 'set_idrac_priv':
+          command => '/usr/local/sbin/idrac_user_priv.sh 2 3',
+          require => [File['/usr/local/sbin/idrac_user_priv.sh'],
+                      Package[$ipmi_pkgs]],
+        }
+      }
+    }
+  }
+
+  else {
 
     exec { 'ipmi_reset_default_name' :
       command => '/usr/bin/ipmitool user set name 2 ADMIN',
@@ -241,59 +296,6 @@ class physical::ipmi (
 
         exec { 'remove_idrac_admin_priv':
           command => '/usr/local/sbin/idrac_user_priv.sh 2 1',
-          require => [File['/usr/local/sbin/idrac_user_priv.sh'],
-                      Package[$ipmi_pkgs]],
-        }
-      }
-    }
-  } else {
-
-    exec { 'ipmi_reset_default_name' :
-      command => '/usr/bin/ipmitool user set name 2 ADMIN',
-      unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$2}')\" == \"ADMIN\"",
-      notify  => [Exec[ipmi_user_priv], Exec[ipmi_user_setpw]],
-      require => Package[$ipmi_pkgs]
-    }
-
-    exec { 'ipmi_user_priv' :
-      command => '/usr/bin/ipmitool user priv 2 4 1',
-      unless  => "/usr/bin/test \"$(ipmitool user list 1 | grep '^2' | awk '{print \$6}')\" == \"ADMINISTRATOR\"",
-      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
-      require => Package[$ipmi_pkgs]
-    }
-
-    exec { 'ipmi_user_setpw' :
-      command => Sensitive("/usr/bin/ipmitool user set password 2 \'${password}\' 16"),
-      unless  => Sensitive("/usr/bin/ipmitool user test 2 16 \'${password}\'"),
-      notify  => [Exec[ipmi_user_enable], Exec[ipmi_user_enable_sol]],
-      require => Package[$ipmi_pkgs]
-    }
-
-    exec { 'ipmi_user_enable' :
-      command     => '/usr/bin/ipmitool user enable 2',
-      refreshonly => true,
-      require     => Package[$ipmi_pkgs]
-    }
-
-    exec { 'ipmi_user_enable_sol' :
-      command     => '/usr/bin/ipmitool sol payload enable 1 2',
-      refreshonly => true,
-      require     => Package[$ipmi_pkgs]
-    }
-
-    if $facts['ipmi_manufacturer'] == 'DELL Inc' {
-
-      file { '/usr/local/sbin/idrac_user_priv.sh':
-        owner  => root,
-        group  => root,
-        mode   => '0750',
-        source => 'puppet:///modules/physical/idrac_user_priv.sh',
-      }
-
-      if $facts['idrac_user2_priv'] != 'ff 01 00 00' {
-
-        exec { 'set_idrac_priv':
-          command => '/usr/local/sbin/idrac_user_priv.sh 2 3',
           require => [File['/usr/local/sbin/idrac_user_priv.sh'],
                       Package[$ipmi_pkgs]],
         }
