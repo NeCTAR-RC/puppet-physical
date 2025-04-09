@@ -3,3 +3,5 @@ physical::repo::dell::openmanage_version: '11010'
 physical::repo::dell::distro: jammy
 
 physical::hddtemp::ensure: absent
+
+physical::repo::hwraid: false
