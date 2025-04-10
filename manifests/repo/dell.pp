@@ -13,16 +13,14 @@ class physical::repo::dell(
     $real_mirror_url="${base_mirror_url}${openmanage_version}/${distro}"
   }
 
-  apt::key { 'dell':
-    id     => '42550ABD1E80D7C1BC0BAD851285491434D8786F',
-    source => 'https://linux.dell.com/files/pgp_pubkeys/0x1285491434D8786F.asc'
-  }
-
   apt::source { 'dell':
     location => $real_mirror_url,
     release  => $distro,
     repos    => 'main',
-    require  => Apt::Key['dell'],
+    key      => {
+      'name'   => 'dell-nectar.gpg',
+      'source' => 'http://download.rc.nectar.org.au/dell-keyring.gpg',
+    },
   }
 
   Apt::Source <| title == 'dell' |> -> Class['apt::update'] -> Package <| tag == 'dell' |>
