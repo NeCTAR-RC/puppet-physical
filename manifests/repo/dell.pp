@@ -4,6 +4,8 @@ class physical::repo::dell(
   String $openmanage_version,
   Optional[String] $mirror_url = undef,
   String $distro = $facts['os']['distro']['codename'],
+  String $keyring_name = 'dell-nectar.gpg',
+  String $keyring_source = 'http://download.rc.nectar.org.au/dell-keyring.gpg',
 ) {
 
   # mirror_url used in preference to pattern formed url
@@ -18,8 +20,8 @@ class physical::repo::dell(
     release  => $distro,
     repos    => 'main',
     key      => {
-      'name'   => 'dell-nectar.gpg',
-      'source' => 'http://download.rc.nectar.org.au/dell-keyring.gpg',
+      'name'   => $keyring_name,
+      'source' => $keyring_source,
     },
   }
 
