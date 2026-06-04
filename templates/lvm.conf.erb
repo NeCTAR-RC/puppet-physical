@@ -89,6 +89,9 @@ devices {
     # List of pairs of additional acceptable block device types found 
     # in /proc/devices with maximum (non-zero) number of partitions.
     # types = [ "fd", 16 ]
+<% if @types -%>
+    types = <%= @types %>
+<% end -%>
 
     # If sysfs is mounted (2.6 kernels) restrict device scanning to 
     # the block devices it believes are valid.

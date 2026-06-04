@@ -1,4 +1,6 @@
-class physical::lvm {
+class physical::lvm(
+  Optional[String] $types = undef,
+) {
 
   include physical
 
