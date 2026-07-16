@@ -1,7 +1,9 @@
 # Configure smart nagios checks for a host
 class physical::smart_nagios(
-  Boolean $enabled      = true,
-  String $nrpe_command  = 'check_nrpe_slow_1arg',
+  Boolean $enabled        = true,
+  String $nrpe_command    = 'check_nrpe_slow_1arg',
+  # Minutes between checks
+  Integer $check_interval = 60,
 ) {
 
     $ensure_files=$enabled? {
@@ -38,9 +40,10 @@ class physical::smart_nagios(
   if $enabled {
     nagios::nrpe::service {
       'check_smart':
-        check_command => '/usr/local/lib/nagios/plugins/check_smart_wrapper.py',
-        nrpe_command  => $nrpe_command,
-        require       => File['/usr/local/lib/nagios/plugins/check_smart_wrapper.py'],
+        check_command  => '/usr/local/lib/nagios/plugins/check_smart_wrapper.py',
+        nrpe_command   => $nrpe_command,
+        check_interval => $check_interval,
+        require        => File['/usr/local/lib/nagios/plugins/check_smart_wrapper.py'],
     }
   }
 
