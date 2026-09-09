@@ -1,10 +1,15 @@
 class physical::repo (
   Boolean $hwraid = true,
+  Boolean $openmanage = true,
 ) {
 
   case $facts['dmi']['manufacturer'] {
     'HP':         { require physical::repo::hp }
-    'Dell Inc.':  { require physical::repo::dell }
+    'Dell Inc.':  {
+      if $openmanage {
+        require physical::repo::dell
+      }
+    }
     default:      {}
   }
 

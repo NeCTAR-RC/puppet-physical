@@ -2,6 +2,7 @@
 class physical(
   Boolean $edac_check = true,
   Array $localdisks   = [],
+  Boolean $openmanage = true,
 ) {
 
   # Set up repositories
@@ -30,13 +31,15 @@ class physical(
 
     'HP' :         { include physical::hp }
     'Dell Inc.' :  {
-        case $facts['dmi']['product']['name'] {
-            'PowerEdge R630': {
-                class { 'physical::dell':
-                    openmanage_check_args => '--no-storage -b bp=0'
+        if $openmanage {
+            case $facts['dmi']['product']['name'] {
+                'PowerEdge R630': {
+                    class { 'physical::dell':
+                        openmanage_check_args => '--no-storage -b bp=0'
+                    }
                 }
+                default: { include physical::dell }
             }
-            default: { include physical::dell }
         }
     }
     'Supermicro' : { include physical::supermicro }

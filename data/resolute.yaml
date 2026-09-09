@@ -1,0 +1,7 @@
+# Dell OpenManage is EOL and has no repo for anything newer than jammy
+physical::openmanage: false
+physical::repo::openmanage: false
+
+physical::hddtemp::ensure: absent
+
+physical::repo::hwraid: false
