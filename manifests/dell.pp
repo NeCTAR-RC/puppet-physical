@@ -50,20 +50,10 @@ class physical::dell (
       mode   => '1664',
     }
 
-    if versioncmp($facts['os']['release']['full'], '18.04') < 0 {
-      # pre-bionic
-      service { 'dataeng':
-        ensure  => running,
-        enable  => true,
-        require => [Package['srvadmin-base'], Package['srvadmin-omcommon']],
-      }
-    } else {
-      # bionic and newer with OM 9+ don't have /etc/init.d/dataeng
-      service { ['dsm_sa_datamgrd.service', 'dsm_sa_eventmgrd.service']:
-        ensure  => running,
-        enable  => true,
-        require => [Package['srvadmin-base'], Package['srvadmin-omacore']],
-      }
+    service { ['dsm_sa_datamgrd.service', 'dsm_sa_eventmgrd.service']:
+      ensure  => running,
+      enable  => true,
+      require => [Package['srvadmin-base'], Package['srvadmin-omacore']],
     }
 
     nagios::nrpe::service { 'check_openmanage':

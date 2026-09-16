@@ -7,7 +7,6 @@ class physical::ipmi (
   $netmask             = '255.255.255.0',
   $domain              = '',
   $lan_channel         = 1,
-  $serial_tty          = '',
   $sensor_ignore_codes = undef,
 ) inherits physical {
 
@@ -50,24 +49,6 @@ class physical::ipmi (
     }
   }
 
-  if $serial_tty != '' {
-
-    file { "/etc/init/${serial_tty}.conf":
-      ensure  => present,
-      owner   => root,
-      group   => root,
-      mode    => '0644',
-      content => template('physical/ttySX.conf.erb'),
-      notify  => Service[$serial_tty],
-    }
-
-    service { $serial_tty:
-      ensure   => running,
-      enable   => true,
-      provider => upstart,
-    }
-  }
-
   file { '/etc/sudoers.d/nagios_ipmi':
     owner  => 'root',
     group  => 'root',
@@ -95,28 +76,17 @@ class physical::ipmi (
     $excluded_ipmi_codes = $sensor_ignore_codes
   }
 
-  case $facts['os']['distro']['codename'] {
-    'bionic': {
-      $check_command = "/usr/lib/nagios/plugins/check_ipmi_sensor -x ${excluded_ipmi_codes}"
-      file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
-        ensure => absent,
-      }
-    }
-    default: {
-      $check_command = "/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x ${excluded_ipmi_codes}"
-      file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
-        owner   => root,
-        group   => root,
-        mode    => '0755',
-        source  => 'puppet:///modules/physical/check_ipmi_sensor',
-        require => Package[$ipmi_pkgs],
-      }
-    }
+  file { '/usr/local/lib/nagios/plugins/check_ipmi_sensor':
+    owner   => root,
+    group   => root,
+    mode    => '0755',
+    source  => 'puppet:///modules/physical/check_ipmi_sensor',
+    require => Package[$ipmi_pkgs],
   }
 
   nagios::nrpe::service { 'check_ipmi_sensor':
     nrpe_command  => 'check_nrpe_slow_1arg',
-    check_command => $check_command,
+    check_command => "/usr/local/lib/nagios/plugins/check_ipmi_sensor -H localhost -x ${excluded_ipmi_codes}",
   }
 
   if $facts['ipmi_manufacturer'] == 'DELL Inc' {

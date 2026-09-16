@@ -33,11 +33,7 @@ class physical::smart(
   }
 
   if $ensure == 'present' {
-    case $facts['os']['distro']['codename'] {
-      precise : { $smartservice = 'smartd' }
-      default : { $smartservice = 'smartmontools' }
-    }
-    service { $smartservice :
+    service { 'smartmontools':
       ensure    => running,
       require   => Package['smartmontools'],
       subscribe => [ File['/etc/default/smartmontools'],
