@@ -2,7 +2,6 @@
 class physical(
   Boolean $edac_check = true,
   Array $localdisks   = [],
-  Boolean $openmanage = true,
 ) {
 
   # Set up repositories
@@ -31,16 +30,15 @@ class physical(
 
     'HP' :         { include physical::hp }
     'Dell Inc.' :  {
-        if $openmanage {
-            case $facts['dmi']['product']['name'] {
-                'PowerEdge R630': {
-                    class { 'physical::dell':
-                        openmanage_check_args => '--no-storage -b bp=0'
-                    }
-                }
-                default: { include physical::dell }
-            }
+      # Whether OpenManage is installed is decided by physical::dell::openmanage
+      case $facts['dmi']['product']['name'] {
+        'PowerEdge R630': {
+          class { 'physical::dell':
+            openmanage_check_args => '--no-storage -b bp=0',
+          }
         }
+        default: { include physical::dell }
+      }
     }
     'Supermicro' : { include physical::supermicro }
     default: {}
