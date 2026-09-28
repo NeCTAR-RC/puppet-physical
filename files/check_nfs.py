@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import sys
 import os
 import subprocess
@@ -24,7 +24,7 @@ class Alarm(Exception):
 
 
 def usage():
-    print "Usage: " + sys.argv[0] + " -m for mountpoint only , -a for mountpoint and log"
+    print("Usage: " + sys.argv[0] + " -m for mountpoint only , -a for mountpoint and log")
     sys.exit(0)
 
 
@@ -46,7 +46,7 @@ def handler(signum,frame):
 
 def check_mount():
     list_fstab=[]
-    n = subprocess.Popen(MOUNT,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    n = subprocess.Popen(MOUNT,shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
     for x in n.communicate()[0].strip().splitlines():
         if re.search('nfs',x):
             x=x.split('on',1)[1]
@@ -55,7 +55,7 @@ def check_mount():
     if len(list_fstab)!=0:
         for _n in list_fstab:
             directory="".join(_n)
-            p = subprocess.Popen([DF,"-k",directory],shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            p = subprocess.Popen([DF,"-k",directory],shell=False,stdout=subprocess.PIPE,stderr=subprocess.PIPE,universal_newlines=True)
             signal.signal(signal.SIGALRM,handler)
             signal.alarm(5)
             try:
@@ -135,21 +135,22 @@ if __name__ == '__main__':
         if _arg_usage().m=='m':
             args=check_mount()
             if args[0]==0:
-                print 'OK - %s' % args[1]
-                raise SystemExit,OK
+                print('OK - %s' % args[1])
+                raise SystemExit(OK)
             if args[0]==2:
-                print 'CRITICAL -%s' % args[1]
-                raise SystemExit,CRITICAL
+                print('CRITICAL -%s' % args[1])
+                raise SystemExit(CRITICAL)
         else:
             margs=check_mount()
             largs=check_Log()
             if margs[0]==0 and largs[0]==0:
-                print 'OK - %s : %s' % (margs[1],largs[1])
-                raise SystemExit,OK
+                print('OK - %s : %s' % (margs[1],largs[1]))
+                raise SystemExit(OK)
             else:
                 #Raise Everything else as critical if NFS returns other than   0
-                print 'CRITICAL - %s : %s' % (margs[1],largs[1])
-                raise SystemExit,CRITICAL
-    except Exception:
-        raise SystemExit,CRITICAL
+                print('CRITICAL - %s : %s' % (margs[1],largs[1]))
+                raise SystemExit(CRITICAL)
+    except Exception as e:
+        print('CRITICAL - %s' % e)
+        raise SystemExit(CRITICAL)
 
